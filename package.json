@@ -1,0 +1,21 @@
+{
+  "name": "solar-card-api-helper",
+  "version": "1.0.0",
+  "description": "This package file is for all the dependencies for Solar-Card API Helper",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solarenterprises/Solar-Card-API-Helper.git"
+  },
+  "dependencies": {
+    "axios": "^1.6.3",
+    "big.js": "^5.2.2",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Solar Enterprises",
+  "license": "MIT"
+}
