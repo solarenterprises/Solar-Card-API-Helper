@@ -17,7 +17,7 @@ const vaultService = {
     registerUser: async (initialUserData, confirmUserData) => {
         try {
             // Step 1: Send initial registration request without emailConfirmCode
-            const initialResponse = await kyInstance.post('/reg/user', {
+            const initialResponse = await kyInstance.post('reg/user', {
                 json: initialUserData,
                 throwHttpErrors: false,
             });
@@ -27,7 +27,7 @@ const vaultService = {
                 await new Promise(resolve => setTimeout(resolve, 2000));
 
                 // Step 2: Send confirmation request with emailConfirmCode
-                const confirmResponse = await kyInstance.post('/reg/user', {
+                const confirmResponse = await kyInstance.post('reg/user', {
                     json: confirmUserData,
                     throwHttpErrors: false,
                 });
