@@ -1,14 +1,14 @@
 import express from 'express';
-import http from 'http';
-import socketIo from 'socket.io';
-import apiHelperController from './controllers/apiHelperController.mjs';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
 
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server); // Initialize Socket.IO with the HTTP server
+const server = createServer(app);
+const io = new Server(server); // Initialize Socket.IO with the HTTP server
 
 const port = process.env.PORT || 3000;
 

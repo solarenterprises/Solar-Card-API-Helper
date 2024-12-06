@@ -1,7 +1,7 @@
 // controllers/apiHelperController.mjs
 import vaultService from '../services/vaultService.mjs';
 import mongoose from 'mongoose';
-import User from '../models/User.js'; // Adjust path as needed
+import User from '../models/User.mjs'; // Adjust path as needed
 
 const apiHelperController = {
     register: async (req, res) => {
