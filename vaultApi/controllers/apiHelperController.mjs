@@ -42,6 +42,57 @@ const apiHelperController = {
             mongoose.connection.close();
         }
     },
+    verifyPhone: async (req, res) => {
+        try {
+            const { userId, phoneNumber, verificationCode } = req.body;
+            const response = await vaultService.verifyPhoneNumber(userId, phoneNumber, verificationCode);
+            
+            if (response.success) {
+                await User.findOneAndUpdate(
+                    { userId },
+                    { phoneNumber, isPhoneVerified: true }
+                );
+                res.status(200).json({ message: 'Phone verified successfully' });
+            } else {
+                res.status(400).json({ error: 'Phone verification failed' });
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+    initKYC: async (req, res) => {
+        try {
+            const { userId } = req.body;
+            const response = await vaultService.initSumsubVerification(userId);
+            
+            await User.findOneAndUpdate(
+                { userId },
+                { 
+                    kycStatus: 'IN_PROGRESS',
+                    sumsubApplicantId: response.applicantId
+                }
+            );
+            
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    createVerification: async (req, res) => {
+        try {
+            const verificationData = {
+                userId: req.body.userId,
+                type: 'SUMSUB',
+                // Add other required SUMSUB parameters
+            };
+            const response = await vaultService.createVerification(verificationData);
+            res.status(201).json(response);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
 };
 
 export default apiHelperController;

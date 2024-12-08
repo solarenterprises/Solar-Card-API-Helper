@@ -45,6 +45,61 @@ const vaultService = {
             throw new Error(`Registration error: ${error.message}`);
         }
     },
+    verifyPhoneNumber: async (userId, phoneNumber, verificationCode) => {
+        try {
+            const response = await kyInstance.post('reg/user/phone', {
+                json: {
+                    userId,
+                    phoneNumber,
+                    verificationCode
+                },
+                throwHttpErrors: false,
+            });
+            
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Phone verification error: ${error.message}`);
+        }
+    },
+
+    // Add SUMSUB verification
+    initSumsubVerification: async (userId) => {
+        try {
+            const response = await kyInstance.post('kyc/sumsub/init', {
+                json: { userId },
+                throwHttpErrors: false,
+            });
+            
+            return await response.json();
+        } catch (error) {
+            throw new Error(`SUMSUB initialization error: ${error.message}`);
+        }
+    },
+
+    checkSumsubStatus: async (userId) => {
+        try {
+            const response = await kyInstance.get(`kyc/sumsub/status/${userId}`, {
+                throwHttpErrors: false,
+            });
+            
+            return await response.json();
+        } catch (error) {
+            throw new Error(`SUMSUB status check error: ${error.message}`);
+        }
+    },
+    createVerification: async (userData) => {
+        try {
+            const response = await kyInstance.post('verification', {
+                json: userData,
+                throwHttpErrors: false,
+            });
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Verification error: ${error.message}`);
+        }
+    },
+
+    
 };
 
 export default vaultService;
