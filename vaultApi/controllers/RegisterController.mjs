@@ -1,9 +1,9 @@
-// controllers/apiHelperController.mjs
-import vaultService from '../services/vaultService.mjs';
+// controllers/RegisterController.mjs
+import vaultRegisterService from '../services/vaultRegisterService.mjs';
 import mongoose from 'mongoose';
 import User from '../models/User.mjs'; // Adjust path as needed
 
-const apiHelperController = {
+const RegisterController = {
     register: async (req, res) => {
         const { userType, email, password } = req.body; // Assuming request has this data
         const initialUserData = {
@@ -19,7 +19,7 @@ const apiHelperController = {
 
         try {
             // Call the registration service
-            const response = await vaultService.registerUser(initialUserData, confirmUserData);
+            const response = await vaultRegisterService.registerUser(initialUserData, confirmUserData);
 
             // If registration is successful, save the user to MongoDB
             if (response.user_id) {
@@ -45,7 +45,7 @@ const apiHelperController = {
     verifyPhone: async (req, res) => {
         try {
             const { userId, phoneNumber, verificationCode } = req.body;
-            const response = await vaultService.verifyPhoneNumber(userId, phoneNumber, verificationCode);
+            const response = await vaultRegisterService.verifyPhoneNumber(userId, phoneNumber, verificationCode);
             
             if (response.success) {
                 await User.findOneAndUpdate(
@@ -64,7 +64,7 @@ const apiHelperController = {
     initKYC: async (req, res) => {
         try {
             const { userId } = req.body;
-            const response = await vaultService.initSumsubVerification(userId);
+            const response = await vaultRegisterService.initSumsubVerification(userId);
             
             await User.findOneAndUpdate(
                 { userId },
@@ -86,7 +86,7 @@ const apiHelperController = {
                 type: 'SUMSUB',
                 // Add other required SUMSUB parameters
             };
-            const response = await vaultService.createVerification(verificationData);
+            const response = await vaultRegisterService.createVerification(verificationData);
             res.status(201).json(response);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -95,4 +95,4 @@ const apiHelperController = {
 
 };
 
-export default apiHelperController;
+export default RegisterController;

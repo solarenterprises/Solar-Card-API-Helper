@@ -1,4 +1,4 @@
-// services/vaultService.mjs
+// services/vaultRegisterService.mjs
 import ky from 'ky';
 import config from '../config/config.mjs';
 
@@ -13,7 +13,7 @@ const kyInstance = ky.create({
 });
 
 // Function for registering the partner user
-const vaultService = {
+const vaultRegisterService = {
     registerUser: async (initialUserData, confirmUserData) => {
         try {
             // Step 1: Send initial registration request without emailConfirmCode
@@ -65,7 +65,7 @@ const vaultService = {
     // Add SUMSUB verification
     initSumsubVerification: async (userId) => {
         try {
-            const response = await kyInstance.post('kyc/sumsub/init', {
+            const response = await kyInstance.post('/reg/verification', {
                 json: { userId },
                 throwHttpErrors: false,
             });
@@ -78,7 +78,7 @@ const vaultService = {
 
     checkSumsubStatus: async (userId) => {
         try {
-            const response = await kyInstance.get(`kyc/sumsub/status/${userId}`, {
+            const response = await kyInstance.get(`/reg/verification/${userId}`, {
                 throwHttpErrors: false,
             });
             
@@ -87,19 +87,9 @@ const vaultService = {
             throw new Error(`SUMSUB status check error: ${error.message}`);
         }
     },
-    createVerification: async (userData) => {
-        try {
-            const response = await kyInstance.post('verification', {
-                json: userData,
-                throwHttpErrors: false,
-            });
-            return await response.json();
-        } catch (error) {
-            throw new Error(`Verification error: ${error.message}`);
-        }
-    },
+
 
     
 };
 
-export default vaultService;
+export default vaultRegisterService;

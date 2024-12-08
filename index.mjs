@@ -1,7 +1,8 @@
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
+import RegisterController from './vaultApi/controllers/RegisterController.mjs';
+import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
@@ -16,8 +17,10 @@ app.use(express.json());
 
 // Define your routes
 // app.get('/vault-data', apiHelperController.getVaultData);
-app.post('/reg/user', apiHelperController.register);
-app.post('/reg/user/phone', apiHelperController.verifyPhone);
+app.post('/reg/user', RegisterController.register);
+app.post('/reg/user/phone', RegisterController.verifyPhone);
+app.post('/reg/verification', RegisterController.initKYC);
+
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
