@@ -19,8 +19,11 @@ const RegisterController = {
 
         try {
             // Call the registration service
+            
             const response = await vaultRegisterService.registerUser(initialUserData, confirmUserData);
-
+            
+            console.log(response);
+            
             // If registration is successful, save the user to MongoDB
             if (response.user_id) {
                 await mongoose.connect(config.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -42,6 +45,25 @@ const RegisterController = {
             mongoose.connection.close();
         }
     },
+
+    getGroups:async (req, res) => {
+
+        const token = req.headers['token'];
+        console.log(token);
+        try {
+            // Call the registration service
+            
+            const response = await vaultRegisterService.getGroups(token);
+            
+            console.log(response);
+
+                res.status(200).json(response);
+            
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
     verifyPhone: async (req, res) => {
         try {
             const { userId, phoneNumber, verificationCode } = req.body;

@@ -17,9 +17,16 @@ app.use(express.json());
 
 // Define your routes
 // app.get('/vault-data', apiHelperController.getVaultData);
+app.get('/', ()=>{
+    console.log('hello');
+})
+
+//Registration
 app.post('/reg/user', RegisterController.register);
-app.post('/reg/user/phone', RegisterController.verifyPhone);
-app.post('/reg/verification', RegisterController.initKYC);
+app.get('/reg/user/groups', RegisterController.getGroups);
+
+// app.post('/reg/user/phone', RegisterController.verifyPhone);
+// app.post('/reg/verification', RegisterController.initKYC);
 
 
 // Socket.IO connection event

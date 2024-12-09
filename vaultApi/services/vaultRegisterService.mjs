@@ -4,23 +4,34 @@ import config from '../config/config.mjs';
 
 // Initialize ky instance
 const kyInstance = ky.create({
-    prefixUrl: config.API_BASE_URL,
+    prefixUrl: 'https://api.sandbox-v2.vault.ist',
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        partnerId: config.PARTNER_ID,
+        partnerId: 13,
     },
 });
 
 // Function for registering the partner user
 const vaultRegisterService = {
+
     registerUser: async (initialUserData, confirmUserData) => {
         try {
+            console.log("==========================");
+            console.log(initialUserData);
+            console.log(kyInstance.prefixUrl);
+            console.log(kyInstance.head.partnerId);
+            console.log("==========================");
+
             // Step 1: Send initial registration request without emailConfirmCode
             const initialResponse = await kyInstance.post('reg/user', {
                 json: initialUserData,
                 throwHttpErrors: false,
             });
+            
+            console.log(initialResponse.status);
+            console.log("==========================");
+            
 
             if (initialResponse.status === 202) {
                 // Delay before sending confirmation request
@@ -31,6 +42,7 @@ const vaultRegisterService = {
                     json: confirmUserData,
                     throwHttpErrors: false,
                 });
+                console.log(confirmResponse.status);
 
                 const confirmResponseBody = await confirmResponse.json();
                 if (confirmResponse.status === 201) {
@@ -45,6 +57,43 @@ const vaultRegisterService = {
             throw new Error(`Registration error: ${error.message}`);
         }
     },
+
+    getGroups: async (token) => {
+        try {
+            
+            const kyInstanceWithAuth = kyInstance.extend({
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+
+            const initialResponse = await kyInstanceWithAuth.get('reg/user/groups');
+
+            console.log("=============================");
+            console.log(initialResponse);
+            console.log(initialResponse.status);
+            console.log("=============================");
+
+            const initialResponseBody = await initialResponse.json();
+            if (initialResponse.status === 200) {
+
+                console.log("=============================");
+                console.log(initialResponseBody);
+                console.log("=============================");
+                
+                return initialResponseBody;
+            } else {
+                throw new Error('Failed to get groups');
+            }
+        } catch (error) {
+            throw new Error(`Get Groups error: ${error.message}`);
+        }
+    },
+
+
+
+
+
     verifyPhoneNumber: async (userId, phoneNumber, verificationCode) => {
         try {
             const response = await kyInstance.post('reg/user/phone', {
