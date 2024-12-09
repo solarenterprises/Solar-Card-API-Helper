@@ -23,7 +23,9 @@ app.get('/', ()=>{
 
 //Registration
 app.post('/reg/user', RegisterController.register);
-app.get('/reg/user/groups', RegisterController.getGroups);
+// app.get('/reg/user/groups', RegisterController.getGroups);
+app.get('/reg/user/:id', RegisterController.getReqs);
+app.patch('/reg/user/info', RegisterController.updateUser);
 
 // app.post('/reg/user/phone', RegisterController.verifyPhone);
 // app.post('/reg/verification', RegisterController.initKYC);

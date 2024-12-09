@@ -2,6 +2,7 @@
 import vaultRegisterService from '../services/vaultRegisterService.mjs';
 import mongoose from 'mongoose';
 import User from '../models/User.mjs'; // Adjust path as needed
+import config from '../config/config.mjs';
 
 const RegisterController = {
     register: async (req, res) => {
@@ -46,14 +47,14 @@ const RegisterController = {
         }
     },
 
-    getGroups:async (req, res) => {
-
+    getReqs:async (req, res) => {
+        const userId = req.params.id;
         const token = req.headers['token'];
         console.log(token);
         try {
             // Call the registration service
             
-            const response = await vaultRegisterService.getGroups(token);
+            const response = await vaultRegisterService.getReqs(token, userId);
             
             console.log(response);
 
@@ -61,6 +62,37 @@ const RegisterController = {
             
         } catch (error) {
             res.status(500).json({ error: error.message });
+        }
+    },
+    updateUser: async (req, res) => {
+        const { userType } = req.body; // Assuming request has this data
+        const token = req.headers['token'];
+
+        try {
+            // Call the registration service
+            
+            const response = await vaultRegisterService.updateUser(token, userType);
+            
+            console.log(response);
+            
+            // If registration is successful, save the user to MongoDB
+            if (response.user_id) {
+                await mongoose.connect(config.MONGO_URI);
+                await User.findOneAndUpdate(
+                    { userId: response.user_id },
+                    { 
+                        ...userType,
+                        updatedAt: new Date()
+                    }
+                );
+                res.status(201).json({ message: 'User updated and saved to DB', userId: response.user_id });
+            } else {
+                res.status(400).json({ error: 'User updated failed' });
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        } finally {
+            mongoose.connection.close();
         }
     },
 

@@ -58,7 +58,7 @@ const vaultRegisterService = {
         }
     },
 
-    getGroups: async (token) => {
+    getReqs: async (token, userId) => {
         try {
             
             const kyInstanceWithAuth = kyInstance.extend({
@@ -67,7 +67,7 @@ const vaultRegisterService = {
                 },
               });
 
-            const initialResponse = await kyInstanceWithAuth.get('reg/user/groups');
+            const initialResponse = await kyInstanceWithAuth.get(`reg/user/${userId}`);
 
             console.log("=============================");
             console.log(initialResponse);
@@ -80,7 +80,7 @@ const vaultRegisterService = {
                 console.log("=============================");
                 console.log(initialResponseBody);
                 console.log("=============================");
-                
+
                 return initialResponseBody;
             } else {
                 throw new Error('Failed to get groups');
@@ -90,6 +90,35 @@ const vaultRegisterService = {
         }
     },
 
+    updateUser: async (token, userType) => {
+        try {
+            console.log("==========================");
+            console.log(token);
+            console.log(userType);
+            console.log("==========================");
+            const kyInstanceWithAuth = kyInstance.extend({
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+
+            const initialResponse = await kyInstanceWithAuth.patch(`reg/user/info`, {
+                json: {"userType": userType},
+                throwHttpErrors: false,
+            });
+            
+            console.log(initialResponse.status);
+            console.log("==========================");
+            const initialResponseBody = await initialResponse.json();
+            if (initialResponse.status === 200) {
+                return initialResponseBody;
+            } else {
+                throw new Error('Failed to update user');
+            }
+        } catch (error) {
+            throw new Error(`Update error: ${error.message}`);
+        }
+    },
 
 
 
