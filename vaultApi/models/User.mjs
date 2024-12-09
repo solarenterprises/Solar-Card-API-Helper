@@ -1,16 +1,22 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+    {
     userId: { type: String, unique: true, required: true },
     email: { type: String, unique: true, required: true },
+    firstName:{ type: String },
+    lastName:{ type: String },
     password: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
     phoneNumber: { type: String },
     isPhoneVerified: { type: Boolean, default: false },
     kycStatus: { type: String, enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'REJECTED'], default: 'PENDING' },
-    sumsubApplicantId: { type: String }
-});
+    sumsubApplicantId: { type: String },
+
+},{
+    timestamps: true
+}
+);
 
 // Hash password before saving the user
 UserSchema.pre('save', async function (next) {

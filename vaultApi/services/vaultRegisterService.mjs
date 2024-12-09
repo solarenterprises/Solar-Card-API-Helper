@@ -90,11 +90,11 @@ const vaultRegisterService = {
         }
     },
 
-    updateUser: async (token, userType) => {
+    updateUser: async (token, initialUserData) => {
         try {
             console.log("==========================");
             console.log(token);
-            console.log(userType);
+            console.log(initialUserData);
             console.log("==========================");
             const kyInstanceWithAuth = kyInstance.extend({
                 headers: {
@@ -103,7 +103,7 @@ const vaultRegisterService = {
               });
 
             const initialResponse = await kyInstanceWithAuth.patch(`reg/user/info`, {
-                json: {"userType": userType},
+                json: initialUserData,
                 throwHttpErrors: false,
             });
             
@@ -117,52 +117,6 @@ const vaultRegisterService = {
             }
         } catch (error) {
             throw new Error(`Update error: ${error.message}`);
-        }
-    },
-
-
-
-
-    verifyPhoneNumber: async (userId, phoneNumber, verificationCode) => {
-        try {
-            const response = await kyInstance.post('reg/user/phone', {
-                json: {
-                    userId,
-                    phoneNumber,
-                    verificationCode
-                },
-                throwHttpErrors: false,
-            });
-            
-            return await response.json();
-        } catch (error) {
-            throw new Error(`Phone verification error: ${error.message}`);
-        }
-    },
-
-    // Add SUMSUB verification
-    initSumsubVerification: async (userId) => {
-        try {
-            const response = await kyInstance.post('/reg/verification', {
-                json: { userId },
-                throwHttpErrors: false,
-            });
-            
-            return await response.json();
-        } catch (error) {
-            throw new Error(`SUMSUB initialization error: ${error.message}`);
-        }
-    },
-
-    checkSumsubStatus: async (userId) => {
-        try {
-            const response = await kyInstance.get(`/reg/verification/${userId}`, {
-                throwHttpErrors: false,
-            });
-            
-            return await response.json();
-        } catch (error) {
-            throw new Error(`SUMSUB status check error: ${error.message}`);
         }
     },
 

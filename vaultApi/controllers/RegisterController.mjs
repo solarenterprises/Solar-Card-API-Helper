@@ -4,12 +4,16 @@ import mongoose from 'mongoose';
 import User from '../models/User.mjs'; // Adjust path as needed
 import config from '../config/config.mjs';
 
+const MONGO_URI = 'mongodb://localhost:27017/solarcard';
+
 const RegisterController = {
     register: async (req, res) => {
-        const { userType, email, password } = req.body; // Assuming request has this data
+        const { userType, email,firstName, lastName, password } = req.body; // Assuming request has this data
         const initialUserData = {
             userType,
             email,
+            firstName,
+            lastName,
             password,
         };
 
@@ -20,6 +24,7 @@ const RegisterController = {
 
         try {
             // Call the registration service
+            // console.log(config.MONGO_URI);
             
             const response = await vaultRegisterService.registerUser(initialUserData, confirmUserData);
             
@@ -27,15 +32,21 @@ const RegisterController = {
             
             // If registration is successful, save the user to MongoDB
             if (response.user_id) {
-                await mongoose.connect(config.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+                await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
                 const newUser = new User({
                     email,
+                    firstName,
+                    lastName,
                     password,
                     userId: response.user_id,
                     createdAt: new Date(),
                 });
 
                 await newUser.save();
+                console.log("===================================");
+                
+                console.log(newUser);
+                
                 res.status(201).json({ message: 'User registered and saved to DB', userId: response.user_id });
             } else {
                 res.status(400).json({ error: 'User registration failed' });
@@ -51,6 +62,7 @@ const RegisterController = {
         const userId = req.params.id;
         const token = req.headers['token'];
         console.log(token);
+        
         try {
             // Call the registration service
             
@@ -65,24 +77,32 @@ const RegisterController = {
         }
     },
     updateUser: async (req, res) => {
-        const { userType } = req.body; // Assuming request has this data
+        const { userType,firstName,lastName, } = req.body; // Assuming request has this data
         const token = req.headers['token'];
+        const initialUserData = {
+            userType,
+            firstName,
+            lastName,
+        };
 
         try {
             // Call the registration service
             
-            const response = await vaultRegisterService.updateUser(token, userType);
+            const response = await vaultRegisterService.updateUser(token, initialUserData);
             
             console.log(response);
-            
+            const email = response.emails[0].email;
+            const firstName = response.firstName;
+            const lastName = response.lastName;
             // If registration is successful, save the user to MongoDB
-            if (response.user_id) {
-                await mongoose.connect(config.MONGO_URI);
+            if (email) {
+
+                await mongoose.connect(MONGO_URI);
                 await User.findOneAndUpdate(
-                    { userId: response.user_id },
-                    { 
-                        ...userType,
-                        updatedAt: new Date()
+                    { email: email },
+                    {
+                        firstName:firstName,
+                        lastName:lastName,
                     }
                 );
                 res.status(201).json({ message: 'User updated and saved to DB', userId: response.user_id });
@@ -96,56 +116,6 @@ const RegisterController = {
         }
     },
 
-    verifyPhone: async (req, res) => {
-        try {
-            const { userId, phoneNumber, verificationCode } = req.body;
-            const response = await vaultRegisterService.verifyPhoneNumber(userId, phoneNumber, verificationCode);
-            
-            if (response.success) {
-                await User.findOneAndUpdate(
-                    { userId },
-                    { phoneNumber, isPhoneVerified: true }
-                );
-                res.status(200).json({ message: 'Phone verified successfully' });
-            } else {
-                res.status(400).json({ error: 'Phone verification failed' });
-            }
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
-
-    initKYC: async (req, res) => {
-        try {
-            const { userId } = req.body;
-            const response = await vaultRegisterService.initSumsubVerification(userId);
-            
-            await User.findOneAndUpdate(
-                { userId },
-                { 
-                    kycStatus: 'IN_PROGRESS',
-                    sumsubApplicantId: response.applicantId
-                }
-            );
-            
-            res.status(200).json(response);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
-    createVerification: async (req, res) => {
-        try {
-            const verificationData = {
-                userId: req.body.userId,
-                type: 'SUMSUB',
-                // Add other required SUMSUB parameters
-            };
-            const response = await vaultRegisterService.createVerification(verificationData);
-            res.status(201).json(response);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
 
 };
 

@@ -1,9 +1,8 @@
 // config/config.mjs
 import dotenv from 'dotenv';
 import path from 'path';
-
 // Load environment variables from the main project's .env file
-dotenv.config({ path: path.resolve('../../../.env') });
+dotenv.config({ path: path.resolve('../../.env') });
 
 export default {
     API_BASE_URL: process.env.API_BASE_URL,
