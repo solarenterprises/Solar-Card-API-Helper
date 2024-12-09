@@ -8,10 +8,10 @@ const UserSchema = new mongoose.Schema(
     firstName:{ type: String },
     lastName:{ type: String },
     password: { type: String, required: true },
-    phoneNumber: { type: String },
-    isPhoneVerified: { type: Boolean, default: false },
-    kycStatus: { type: String, enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'REJECTED'], default: 'PENDING' },
-    sumsubApplicantId: { type: String },
+    // phoneNumber: { type: String },
+    // isPhoneVerified: { type: Boolean, default: false },
+    // kycStatus: { type: String, enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'REJECTED'], default: 'PENDING' },
+    // sumsubApplicantId: { type: String },
 
 },{
     timestamps: true

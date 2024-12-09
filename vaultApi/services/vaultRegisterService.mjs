@@ -4,11 +4,13 @@ import config from '../config/config.mjs';
 
 // Initialize ky instance
 const kyInstance = ky.create({
-    prefixUrl: 'https://api.sandbox-v2.vault.ist',
+    // prefixUrl: 'https://api.sandbox-v2.vault.ist',
+    prefixUrl: config.API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        partnerId: 13,
+        partnerId: config.CLIENT_ID,
+        // partnerId: 13,
     },
 });
 

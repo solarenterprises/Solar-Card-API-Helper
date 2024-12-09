@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import User from '../models/User.mjs'; // Adjust path as needed
 import config from '../config/config.mjs';
 
-const MONGO_URI = 'mongodb://localhost:27017/solarcard';
+// const MONGO_URI = 'mongodb://localhost:27017/solarcard';
 
 const RegisterController = {
     register: async (req, res) => {
@@ -32,7 +32,7 @@ const RegisterController = {
             
             // If registration is successful, save the user to MongoDB
             if (response.user_id) {
-                await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+                await mongoose.connect(config.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
                 const newUser = new User({
                     email,
                     firstName,
@@ -57,7 +57,6 @@ const RegisterController = {
             mongoose.connection.close();
         }
     },
-
     getReqs:async (req, res) => {
         const userId = req.params.id;
         const token = req.headers['token'];
@@ -97,7 +96,7 @@ const RegisterController = {
             // If registration is successful, save the user to MongoDB
             if (email) {
 
-                await mongoose.connect(MONGO_URI);
+                await mongoose.connect(config.MONGO_URI);
                 await User.findOneAndUpdate(
                     { email: email },
                     {
@@ -115,8 +114,6 @@ const RegisterController = {
             mongoose.connection.close();
         }
     },
-
-
 };
 
 export default RegisterController;

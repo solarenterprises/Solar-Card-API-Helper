@@ -2,7 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import RegisterController from './vaultApi/controllers/RegisterController.mjs';
-import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
+// import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
