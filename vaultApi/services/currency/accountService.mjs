@@ -29,9 +29,16 @@ const accountService = {
         }
     },
 
-    setPreferredCurrencies: async (accountId, token) => {
+    setPreferredCurrencies: async (accountId, currencies, token) => {
         try {
-            const response = await kyInstance.post(`currency/preferred/${accountId}`);
+            const response = await kyInstance.post(`currency/preferred/${accountId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    json: currencies
+                }
+            );
             const data = await response.json();
             return data;
         } catch (error) {
