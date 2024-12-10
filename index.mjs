@@ -1,6 +1,9 @@
 import express from 'express';
-import { createServer } from 'http';
+import http from 'http';
 import { Server } from 'socket.io';
+import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
+import tokenController from './vaultApi/controllers/currency/tokenController.mjs';
+import accountController from './vaultApi/controllers/currency/accountController.mjs';
 import RegisterController from './vaultApi/controllers/Registration/RegisterController.mjs';
 import AuthController from './vaultApi/controllers/Registration/AuthController.mjs';
 // import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
@@ -9,7 +12,7 @@ dotenv.config(); // This loads environment variables from the .env file into `pr
 
 
 const app = express();
-const server = createServer(app);
+const server = http.createServer(app);
 const io = new Server(server); // Initialize Socket.IO with the HTTP server
 
 const port = process.env.PORT || 3000;
@@ -17,11 +20,15 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Define your routes
-// app.get('/vault-data', apiHelperController.getVaultData);
 app.get('/', ()=>{
     console.log('hello');
 })
 
+app.get('/vault-data', apiHelperController.register);
+app.get("/all-tokens", tokenController.getAllTokens);
+app.get("/short-all-tokens", tokenController.getAllTokensShort);
+app.get("/preferred-currencies", accountController.getPreferredCurrencies);
+app.post("/preferred-currencies", accountController.setPreferredCurrencies);
 
 //Registration-register
 app.post('/reg/user', RegisterController.register);
