@@ -4,6 +4,9 @@ import { Server } from 'socket.io';
 import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
 import tokenController from './vaultApi/controllers/currency/tokenController.mjs';
 import accountController from './vaultApi/controllers/currency/accountController.mjs';
+import RegisterController from './vaultApi/controllers/Registration/RegisterController.mjs';
+import AuthController from './vaultApi/controllers/Registration/AuthController.mjs';
+// import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
@@ -17,11 +20,26 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Define your routes
+app.get('/', ()=>{
+    console.log('hello');
+})
+
 app.get('/vault-data', apiHelperController.register);
 app.get("/all-tokens", tokenController.getAllTokens);
 app.get("/short-all-tokens", tokenController.getAllTokensShort);
 app.get("/preferred-currencies", accountController.getPreferredCurrencies);
 app.post("/preferred-currencies", accountController.setPreferredCurrencies);
+
+//Registration-register
+app.post('/reg/user', RegisterController.register);
+// app.get('/reg/user/groups', RegisterController.getGroups);
+app.get('/reg/user/:id', RegisterController.getReqs);
+app.patch('/reg/user/info', RegisterController.updateUser);
+
+//Registration-Auth
+app.post('/reg/auth/token', AuthController.OAuthToken);
+
+
 
 // Socket.IO connection event
 io.on('connection', (socket) => {

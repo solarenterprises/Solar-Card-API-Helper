@@ -1,5 +1,6 @@
 // config/config.mjs
 import dotenv from 'dotenv';
+
 // Load environment variables from the main project's .env file
 dotenv.config();
 

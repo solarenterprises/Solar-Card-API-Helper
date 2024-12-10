@@ -1,43 +1,28 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-// Define the User Schema
 const UserSchema = new mongoose.Schema(
-  {
-    userId: {
-      type: String,
-      unique: true,
-      required: [true, "User ID is required"],
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: [true, "Email is required"],
-      match: [/.+@.+\..+/, "Please provide a valid email address"], // Validate email format
-    },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-    },
-  },
-  {
-    timestamps: true, // Automatically manage createdAt and updatedAt fields
-  }
+    {
+    userId: { type: String, unique: true, required: true },
+    email: { type: String, unique: true, required: true },
+    firstName:{ type: String },
+    lastName:{ type: String },
+    password: { type: String, required: true },
+    // phoneNumber: { type: String },
+    // isPhoneVerified: { type: Boolean, default: false },
+    // kycStatus: { type: String, enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'REJECTED'], default: 'PENDING' },
+    // sumsubApplicantId: { type: String },
+
+},{
+    timestamps: true
+}
 );
 
-// Middleware: Hash password before saving the user
+// Hash password before saving the user
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next(); // Skip if password is not modified
-  try {
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds); // Hash password
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 10);
     next();
-  } catch (error) {
-    next(error); // Pass errors to the next middleware
-  }
 });
 
-// Export the User model
-const User = mongoose.model('User', UserSchema);
-
-export default User;
+export default mongoose.model('User', UserSchema);
