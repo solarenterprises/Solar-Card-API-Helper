@@ -19,7 +19,7 @@ const tokenService = {
             const data = await response.json();
             return data;
         } catch (error) {
-            throw new Error("Get Token Information");
+            throw new Error("Get Token Information", error);
         }
     },
 

@@ -3,6 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
 import tokenController from './vaultApi/controllers/currency/tokenController.mjs';
+import accountController from './vaultApi/controllers/currency/accountController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
@@ -19,6 +20,8 @@ app.use(express.json());
 app.get('/vault-data', apiHelperController.register);
 app.get("/all-tokens", tokenController.getAllTokens);
 app.get("/short-all-tokens", tokenController.getAllTokensShort);
+app.get("/preferred-currencies", accountController.getPreferredCurrencies);
+app.post("/preferred-currencies", accountController.setPreferredCurrencies);
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
