@@ -1,21 +1,21 @@
 import express from 'express';
 import http from 'http';
-import socketIo from 'socket.io';
-import apiHelperController from './controllers/apiHelperController.mjs';
+import { Server } from 'socket.io';
+import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server); // Initialize Socket.IO with the HTTP server
+const io = new Server(server); // Initialize Socket.IO with the HTTP server
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
 // Define your routes
-app.get('/vault-data', apiHelperController.getVaultData);
+app.get('/vault-data', apiHelperController.register);
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
     // Listen for messages from the client
     socket.on('request-data', async () => {
         try {
-            const data = await apiHelperController.getVaultData();  // You might need to adjust this call
+            // const data = await apiHelperController.getVaultData();  // You might need to adjust this call
             socket.emit('data-response', data);  // Send the data back to the client
         } catch (error) {
             socket.emit('data-error', { error: error.message });
