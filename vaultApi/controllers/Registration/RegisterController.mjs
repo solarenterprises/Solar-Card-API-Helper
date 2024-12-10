@@ -1,8 +1,8 @@
 // controllers/RegisterController.mjs
-import vaultRegisterService from '../services/vaultRegisterService.mjs';
+import vaultRegisterService from '../../vaultServices/Registration/RegisterService.mjs';
 import mongoose from 'mongoose';
-import User from '../models/User.mjs'; // Adjust path as needed
-import config from '../config/config.mjs';
+import User from '../../models/User.mjs'; // Adjust path as needed
+import config from '../../config/config.mjs';
 
 // const MONGO_URI = 'mongodb://localhost:27017/solarcard';
 

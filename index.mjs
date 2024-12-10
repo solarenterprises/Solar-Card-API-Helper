@@ -1,7 +1,8 @@
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import RegisterController from './vaultApi/controllers/RegisterController.mjs';
+import RegisterController from './vaultApi/controllers/Registration/RegisterController.mjs';
+import AuthController from './vaultApi/controllers/Registration/AuthController.mjs';
 // import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
@@ -21,14 +22,16 @@ app.get('/', ()=>{
     console.log('hello');
 })
 
-//Registration
+
+//Registration-register
 app.post('/reg/user', RegisterController.register);
 // app.get('/reg/user/groups', RegisterController.getGroups);
 app.get('/reg/user/:id', RegisterController.getReqs);
 app.patch('/reg/user/info', RegisterController.updateUser);
 
-// app.post('/reg/user/phone', RegisterController.verifyPhone);
-// app.post('/reg/verification', RegisterController.initKYC);
+//Registration-Auth
+app.post('/reg/auth/token', AuthController.OAuthToken);
+
 
 
 // Socket.IO connection event

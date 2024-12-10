@@ -1,6 +1,6 @@
 // services/vaultRegisterService.mjs
 import ky from 'ky';
-import config from '../config/config.mjs';
+import config from '../../config/config.mjs';
 
 // Initialize ky instance
 const kyInstance = ky.create({
@@ -121,8 +121,6 @@ const vaultRegisterService = {
             throw new Error(`Update error: ${error.message}`);
         }
     },
-
-
     
 };
 
