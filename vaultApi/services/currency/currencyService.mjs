@@ -23,6 +23,16 @@ const currencyService = {
         }
     },
 
+    getCurrencyBySlug: async (slug) => {
+        try {
+            const response = await kyInstance.get(`currency/currency/slug/${slug}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get Currency by Slug", error);
+        }
+    },
+
 }
 
 

@@ -12,6 +12,17 @@ const currencyController = {
         }
     },
     
+    getCurrencyBySlug: async (req, res) => {
+        const slug = req.params.currency_slug;
+        try {
+            const currency = await currencyService.getCurrencyBySlug(slug);
+            res.status(200).json({data: currency});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+    
 };
 
 export default currencyController;

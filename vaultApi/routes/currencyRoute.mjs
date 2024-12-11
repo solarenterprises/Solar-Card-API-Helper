@@ -17,6 +17,7 @@ router.get("/rate", rateController.getRate);
 router.get("/instruments/all", rateController.getAllInstruments);
 router.get("/instrument/:instrument_id", rateController.getInstrumentDetail);
 router.get("/all-currencies", currencyController.getAllCurrencies);
+router.get("/currency/:currency_slug", currencyController.getCurrencyBySlug);
 
 
 export default router;
