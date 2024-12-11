@@ -9,12 +9,13 @@ const router = express.Router();
 
 router.get("/all-tokens", tokenController.getAllTokens);
 router.get("/short-all-tokens", tokenController.getAllTokensShort);
+// not found 
 router.get("/preferred-currencies", accountController.getPreferredCurrencies);
 router.post("/preferred-currencies", accountController.setPreferredCurrencies);
+///////////////////////////
 router.get("/blockchain-list", blockchainListController.getBlockchainList);
 router.get("/rate", rateController.getRate);
-// not working server error
-router.get("/instruments/all", rateController.getAllInstruments);
+router.get("/all-instruments", rateController.getAllInstruments);
 router.get("/instrument/:instrument_id", rateController.getInstrumentDetail);
 router.get("/all-currencies", currencyController.getAllCurrencies);
 router.get("/currency/:currency_slug", currencyController.getCurrencyBySlug);

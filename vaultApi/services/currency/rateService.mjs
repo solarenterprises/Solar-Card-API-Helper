@@ -25,7 +25,7 @@ const rateService = {
 
     getAllInstruments: async () => {
         try {
-            const response = await kyInstance.get("currency/instruments");
+            const response = await kyInstance.get("currency/instruments/");
             const data = await response.json();
             return data;
         } catch (error) {

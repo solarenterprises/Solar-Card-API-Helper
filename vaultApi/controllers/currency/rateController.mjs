@@ -16,8 +16,8 @@ const rateController = {
     
     getAllInstruments: async (req, res) => {
         try {
-            const rate = await rateService.getAllInstruments();
-            res.status(200).json({data: rate});
+            const instruments = await rateService.getAllInstruments();
+            res.status(200).json({data: instruments});
         } catch (error) {
             console.log(error)
             res.status(500).json({result: "failed"});
