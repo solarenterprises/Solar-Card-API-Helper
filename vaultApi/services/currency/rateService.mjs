@@ -13,9 +13,9 @@ const kyInstance = ky.create({
 });
 
 const rateService = {
-    getRate: async () => {
+    getRate: async (fromCurrency, toCurrency, amount) => {
         try {
-            const response = await kyInstance.get("currency/rate");
+            const response = await kyInstance.get(`currency/rate?fromCurrency=${fromCurrency}&toCurrency=${toCurrency}&amount=${amount}`);
             const data = await response.json();
             return data;
         } catch (error) {

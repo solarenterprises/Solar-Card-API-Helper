@@ -6,7 +6,7 @@ const rateController = {
         const { fromCurrency, toCurrency, amount } = req.query;
 
         try {
-            const rate = await rateService.getRate();
+            const rate = await rateService.getRate(fromCurrency, toCurrency, amount);
             res.status(200).json({data: rate});
         } catch (error) {
             console.log(error)
