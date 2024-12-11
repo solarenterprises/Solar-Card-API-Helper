@@ -11,6 +11,7 @@ router.get("/short-all-tokens", tokenController.getAllTokensShort);
 router.get("/preferred-currencies", accountController.getPreferredCurrencies);
 router.post("/preferred-currencies", accountController.setPreferredCurrencies);
 router.get("/blockchain-list", blockchainListController.getBlockchainList);
+router.get("/rate", rateController.getBlockchainList)
 
 
 
