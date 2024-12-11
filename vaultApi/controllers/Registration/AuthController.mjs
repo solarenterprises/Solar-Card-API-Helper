@@ -1,5 +1,5 @@
 // controllers/RegisterController.mjs
-import vaultAuthService from '../../vaultServices/Registration/AuthService.mjs';
+import vaultAuthService from '../../services/Registration/AuthService.mjs';
 import mongoose from 'mongoose';
 import Token from '../../models/Token.mjs'; // Adjust path as needed
 import config from '../../config/config.mjs';
