@@ -3,6 +3,7 @@ import tokenController from "../controllers/currency/tokenController.mjs"
 import accountController from "../controllers/currency/accountController.mjs"
 import blockchainListController from "../controllers/currency/blockchainListController.mjs"
 import rateController from "../controllers/currency/rateController.mjs"
+import currencyController from "../controllers/currency/currencyController.mjs";
 const router = express.Router();
 
 
@@ -12,8 +13,10 @@ router.get("/preferred-currencies", accountController.getPreferredCurrencies);
 router.post("/preferred-currencies", accountController.setPreferredCurrencies);
 router.get("/blockchain-list", blockchainListController.getBlockchainList);
 router.get("/rate", rateController.getRate);
-router.get("/instruments/:instrument_id", rateController.getInstrumentDetail);
-
+// not working server error
+router.get("/instruments/all", rateController.getAllInstruments);
+router.get("/instrument/:instrument_id", rateController.getInstrumentDetail);
+router.get("/all-currencies", currencyController.getAllCurrencies);
 
 
 export default router;

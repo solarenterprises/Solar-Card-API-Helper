@@ -1,0 +1,29 @@
+// services/currency/currencyService.mjs
+import ky from 'ky';
+import config from '../../config/config.mjs';
+
+// Initialize ky instance
+const kyInstance = ky.create({
+    prefixUrl: config.CURRENCY_API_URL,
+    headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        partnerId: config.PARTNER_ID,
+    },
+});
+
+const currencyService = {
+    getAllCurrencies: async () => {
+        try {
+            const response = await kyInstance.get("currency/currency");
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get All Currencies", error);
+        }
+    },
+
+}
+
+
+export default currencyService;
