@@ -1,11 +1,8 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import tokenController from './vaultApi/controllers/currency/tokenController.mjs';
-import accountController from './vaultApi/controllers/currency/accountController.mjs';
-import RegisterController from './vaultApi/controllers/Registration/RegisterController.mjs';
-import AuthController from './vaultApi/controllers/Registration/AuthController.mjs';
-import blockchainListController from './vaultApi/controllers/blockchain-list/blockchainListController.mjs';
+import authRoute from "./vaultApi/routes/authRoute.mjs";
+import currencyRoute from "./vaultApi/routes/currencyRoute.mjs";
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
@@ -23,22 +20,8 @@ app.get('/', ()=>{
     console.log('hello');
 })
 
-app.get("/all-tokens", tokenController.getAllTokens);
-app.get("/short-all-tokens", tokenController.getAllTokensShort);
-app.get("/preferred-currencies", accountController.getPreferredCurrencies);
-app.post("/preferred-currencies", accountController.setPreferredCurrencies);
-app.get("/blockchain-list", blockchainListController.getBlockchainList);
-
-//Registration-register
-app.post('/reg/user', RegisterController.register);
-// app.get('/reg/user/groups', RegisterController.getGroups);
-app.get('/reg/user/:id', RegisterController.getReqs);
-app.patch('/reg/user/info', RegisterController.updateUser);
-
-//Registration-Auth
-app.post('/reg/auth/token', AuthController.OAuthToken);
-
-
+app.use("/currency", currencyRoute);
+app.use("/", authRoute);
 
 // Socket.IO connection event
 io.on('connection', (socket) => {

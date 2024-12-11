@@ -1,5 +1,5 @@
-// controllers/blockchain-list/blockchainListController.mjs
-import blockchainListService from "../../services/blockchain-list/blockchainListService.mjs";
+// controllers/currency/blockchainListController.mjs
+import blockchainListService from "../../services/currency/blockchainListService.mjs";
 
 const blockchainListController = {
     getBlockchainList: async (req, res) => {

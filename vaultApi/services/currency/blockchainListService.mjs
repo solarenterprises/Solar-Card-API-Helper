@@ -1,4 +1,4 @@
-// services/blockchain-list/blockchainListService.mjs
+// services/currency/blockchainListService.mjs
 import ky from 'ky';
 import config from '../../config/config.mjs';
 
