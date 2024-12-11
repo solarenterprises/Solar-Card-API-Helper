@@ -5,7 +5,7 @@ import tokenController from './vaultApi/controllers/currency/tokenController.mjs
 import accountController from './vaultApi/controllers/currency/accountController.mjs';
 import RegisterController from './vaultApi/controllers/Registration/RegisterController.mjs';
 import AuthController from './vaultApi/controllers/Registration/AuthController.mjs';
-// import passForgotController from './vaultApi/controllers/PasswordForgotController.mjs';
+import blockchainListController from './vaultApi/controllers/blockchain-list/blockchainListController.mjs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
@@ -27,6 +27,7 @@ app.get("/all-tokens", tokenController.getAllTokens);
 app.get("/short-all-tokens", tokenController.getAllTokensShort);
 app.get("/preferred-currencies", accountController.getPreferredCurrencies);
 app.post("/preferred-currencies", accountController.setPreferredCurrencies);
+app.get("/blockchain-list", blockchainListController.getBlockchainList);
 
 //Registration-register
 app.post('/reg/user', RegisterController.register);
