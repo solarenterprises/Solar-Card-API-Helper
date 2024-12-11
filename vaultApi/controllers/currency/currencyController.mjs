@@ -32,7 +32,18 @@ const currencyController = {
             res.status(500).json({result: "failed"});
         }
     },
+
     
+    getCurrencyByName: async (req, res) => {
+        const currencyName = req.params.currency_name;
+        try {
+            const currency = await currencyService.getCurrencyByName(currencyName);
+            res.status(200).json({data: currency});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
 };
 
 export default currencyController;

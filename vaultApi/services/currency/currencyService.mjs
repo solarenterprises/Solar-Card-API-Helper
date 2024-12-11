@@ -43,6 +43,17 @@ const currencyService = {
         }
     },
 
+    getCurrencyByName: async (currencyName) => {
+        try {
+            const response = await kyInstance.get(`currency/currency/name/${currencyName}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get Currency by Name", error);
+        }
+    },
+
+
 }
 
 
