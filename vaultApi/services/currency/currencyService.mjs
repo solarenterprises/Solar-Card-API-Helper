@@ -33,6 +33,16 @@ const currencyService = {
         }
     },
 
+    getShortCurrencyList: async () => {
+        try {
+            const response = await kyInstance.get("currency/currency/short");
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get Short Currency List", error);
+        }
+    },
+
 }
 
 

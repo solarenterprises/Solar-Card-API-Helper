@@ -23,6 +23,16 @@ const currencyController = {
         }
     },
     
+    getShortCurrencyList: async (req, res) => {
+        try {
+            const currencyList = await currencyService.getShortCurrencyList();
+            res.status(200).json({data: currencyList});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+    
 };
 
 export default currencyController;
