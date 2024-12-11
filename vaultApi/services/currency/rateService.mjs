@@ -21,7 +21,17 @@ const rateService = {
         } catch (error) {
             throw new Error("Get Exchange Rate for Currency Pair", error);
         }
-    }
+    },
+
+    getInstrumentDetail: async (instrumentId) => {
+        try {
+            const response = await kyInstance.get(`currency/instruments/${instrumentId}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get Instrument Details", error);
+        }
+    },
 }
 
 
