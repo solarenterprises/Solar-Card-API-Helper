@@ -1,7 +1,6 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import apiHelperController from './vaultApi/controllers/apiHelperController.mjs';
 import tokenController from './vaultApi/controllers/currency/tokenController.mjs';
 import accountController from './vaultApi/controllers/currency/accountController.mjs';
 import RegisterController from './vaultApi/controllers/Registration/RegisterController.mjs';
@@ -24,7 +23,6 @@ app.get('/', ()=>{
     console.log('hello');
 })
 
-app.get('/vault-data', apiHelperController.register);
 app.get("/all-tokens", tokenController.getAllTokens);
 app.get("/short-all-tokens", tokenController.getAllTokensShort);
 app.get("/preferred-currencies", accountController.getPreferredCurrencies);
