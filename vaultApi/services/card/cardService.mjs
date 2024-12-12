@@ -215,6 +215,43 @@ const cardService = {
             throw new Error("Failed to update card limits.");
         }
     },
+
+    updateCardType: async (token, cardId, cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber) => {
+        try {
+            // Construct the payload dynamically
+            const payload = {
+                ...(cardType && { cardType }),
+                deliveryAddress: {
+                    ...(firstName && { firstName }),
+                    ...(lastName && { lastName }),
+                    ...(email && { email }),
+                    ...(phone && { phone }),
+                    ...(country && { country }),
+                    ...(postCode && { postCode }),
+                    ...(state && { state }),
+                    ...(town && { town }),
+                    ...(street && { street }),
+                    ...(subStreet && { subStreet }),
+                    ...(buildingName && { buildingName }),
+                    ...(flatNumber && { flatNumber }),
+                    ...(buildingNumber && { buildingNumber }),
+                }
+            };
+    
+            const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/change-type`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                json: payload,
+            });
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error updating card type:", error);
+            throw new Error("Failed to update card type.");
+        }
+    },
 }
 
 

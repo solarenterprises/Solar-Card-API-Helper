@@ -141,11 +141,20 @@ const cardController = {
         }
     },
 
-
-
-
-
-
+    updateCardType: async (req, res) => {
+        try {
+            // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            const { cardId, cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber } = req.body;
+            const card = await cardService.updateCardType(token, cardId, cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber);
+            res.status(200).json({data: card});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },   
     
 
 };
