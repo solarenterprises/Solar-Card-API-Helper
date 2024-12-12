@@ -45,16 +45,24 @@ const cardService = {
         }
     },
     
-    createCardRequest: async (token, cardOfferId) => {
+    createCardRequest: async (token, cardOfferId, accountId,  preferredCardname,  secondaryCardname,  
+        billingAddress,  deliveryAddress,cardDesignId) => {
         try {
-            const response = await kyInstance.get(`card-holder/cardrequest`,
+            const payload = {
+                cardOfferId,
+                ...(accountId && { accountId }),
+                ...(preferredCardname && { preferredCardname }),
+                ...(secondaryCardname && { secondaryCardname }),
+                ...(billingAddress && { billingAddress }),
+                ...(deliveryAddress && { deliveryAddress }),
+                ...(cardDesignId && { cardDesignId }),
+            };
+            const response = await kyInstance.post(`card-holder/cardrequest`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                    json: {
-                        cardOfferId: cardOfferId
-                    }
+                    json: payload
                 },
             );
             const data = await response.json();
@@ -64,19 +72,32 @@ const cardService = {
         }
     },
 
-    getTransactions: async (token, cardId) => {
+    getTransactions: async (token, cardId, status, startDate, endDate, size, page, sort) => {
         try {
-            const response = await kyInstance.get(`card-holder/transaction?cardId=${cardId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                }
-            );
+            // Construct query parameters dynamically
+            const queryParams = new URLSearchParams({
+                cardId,
+                ...(status && { status }),
+                ...(startDate && { startDate }),
+                ...(endDate && { endDate }),
+                ...(size && { size }),
+                ...(page && { page }),
+                ...(sort && { sort }),
+            });
+    
+            // Make the request
+            const response = await kyInstance.get(`card-holder/transaction?${queryParams.toString()}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            // Parse and return the JSON response
             const data = await response.json();
             return data;
         } catch (error) {
-            throw new Error("Get List Card Requests", error);
+            console.error("Error fetching transactions:", error);
+            throw new Error("Failed to fetch transactions.");
         }
     },
 
@@ -96,22 +117,27 @@ const cardService = {
         }
     },
 
-    resetCardPIN: async (token, cardId, pin) => {
+    resetCardPIN: async (token, cardId, pin, secretQuestion, secretQuestionAnswer) => {
         try {
-            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/pin/reset`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                    json: {
-                        pin: pin
-                    }
-                }
-            );
+            // Construct the payload dynamically
+            const payload = {
+                pin,
+                ...(secretQuestion && { secretQuestion }),
+                ...(secretQuestionAnswer && { secretQuestionAnswer })
+            };
+    
+            const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/pin/reset`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                json: payload,
+            });
+    
             const data = await response.json();
             return data;
         } catch (error) {
-            throw new Error("Reset Card PIN", error);
+            console.error("Error resetting card PIN:", error);
+            throw new Error("Failed to reset card PIN.");
         }
     },
 
@@ -128,6 +154,33 @@ const cardService = {
             return data;
         } catch (error) {
             throw new Error("Get Card Limits", error);
+        }
+    },
+
+    updateCardLimits: async (token, cardId, transaction, daily, weekly, monthly, yearly, allTime) => {
+        try {
+            // Construct the payload dynamically
+            const payload = {
+                ...(transaction && { transaction }),
+                ...(daily && { daily }),
+                ...(weekly && { weekly }),
+                ...(monthly && { monthly }),
+                ...(yearly && { yearly }),
+                ...(allTime && { allTime }),
+            };
+    
+            const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/limits`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                json: payload,
+            });
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error updating card limits:", error);
+            throw new Error("Failed to update card limits.");
         }
     },
 }

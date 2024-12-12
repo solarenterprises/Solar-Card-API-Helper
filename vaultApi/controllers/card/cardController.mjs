@@ -6,6 +6,9 @@ const cardController = {
     getCardOfferList: async (req, res) => {
         try {
             // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
             const cardOffers = await cardService.getCardOfferList(token);
             res.status(200).json({data: cardOffers});
         } catch (error) {
@@ -17,6 +20,9 @@ const cardController = {
     getCardRequestList: async (req, res) => {
         try {
             // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
             const cardRequests = await cardService.getCardRequestList(token);
             res.status(200).json({data: cardRequests});
         } catch (error) {
@@ -28,8 +34,25 @@ const cardController = {
     createCardRequest: async (req, res) => {
         try {
             // const token = req.cookie.token;
-            const cardId = req.body.cardId;
-            const cardRequest = await cardService.createCardRequest(token, cardId);
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            const {
+                cardOfferId,
+                accountId,
+                preferredCardname,
+                secondaryCardname,
+                billingAddress,
+                deliveryAddress,
+                cardDesignId
+            } = req.body;
+            
+            if(!cardOfferId) {
+                return res.status(404).json({ result: "failed", message: "CardOfferId is missing." });
+            }
+
+            const cardRequest = await cardService.createCardRequest(token, cardOfferId, accountId,  preferredCardname,  secondaryCardname,  
+                    billingAddress,  deliveryAddress, cardDesignId);
             res.status(200).json({data: cardRequest});
         } catch (error) {
             console.log(error)
@@ -40,8 +63,18 @@ const cardController = {
     getTransactions: async (req, res) => {
         try {
             // const token = req.cookie.token;
-            const cardId = req.query.cardId;
-            const transactions = await cardService.getTransactions(token, cardId);
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+
+            const { cardId, status, startDate, endDate, size, page, sort } = req.query;
+
+            // Validate required parameters
+            if (!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card ID is required." });
+            }
+
+            const transactions = await cardService.getTransactions(token, cardId, status, startDate, endDate, size, page, sort);
             res.status(200).json({data: transactions});
         } catch (error) {
             console.log(error)
@@ -52,6 +85,9 @@ const cardController = {
     getCardOffersList: async (req, res) => {
         try {
             // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
             const cardOffers = await cardService.getCardOffersList(token);
             res.status(200).json({data: cardOffers});
         } catch (error) {
@@ -63,9 +99,11 @@ const cardController = {
     resetCardPIN: async (req, res) => {
         try {
             // const token = req.cookie.token;
-            const cardId = req.params.card_id;
-            const pin = req.body.pin;
-            const resetPIN = await cardService.resetCardPIN(token, cardId, pin);
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            const {cardId, pin, secretQuestion, secretQuestionAnswer} = req.body;
+            const resetPIN = await cardService.resetCardPIN(token, cardId, pin, secretQuestion, secretQuestionAnswer);
             res.status(200).json({data: resetPIN});
         } catch (error) {
             console.log(error)
@@ -76,8 +114,26 @@ const cardController = {
     getCardLimits: async (req, res) => {
         try {
             // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
             const cardId = req.params.card_id;
             const card = await cardService.getCardLimits(token, cardId);
+            res.status(200).json({data: card});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
+    updateCardLimits: async (req, res) => {
+        try {
+            // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            const { cardId, transaction, daily, weekly, monthly, yearly, allTime } = req.body;
+            const card = await cardService.updateCardLimits(token, cardId, transaction, daily, weekly, monthly, yearly, allTime );
             res.status(200).json({data: card});
         } catch (error) {
             console.log(error)
