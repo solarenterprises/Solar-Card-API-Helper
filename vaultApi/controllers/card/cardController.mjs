@@ -73,6 +73,19 @@ const cardController = {
         }
     },
 
+    getCardLimits: async (req, res) => {
+        try {
+            // const token = req.cookie.token;
+            const cardId = req.params.card_id;
+            const card = await cardService.getCardLimits(token, cardId);
+            res.status(200).json({data: card});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
+
 
 
 

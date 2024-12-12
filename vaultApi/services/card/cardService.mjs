@@ -114,6 +114,22 @@ const cardService = {
             throw new Error("Reset Card PIN", error);
         }
     },
+
+    getCardLimits: async (token, cardId) => {
+        try {
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/limits`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get Card Limits", error);
+        }
+    },
 }
 
 
