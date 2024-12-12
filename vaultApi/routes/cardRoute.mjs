@@ -13,6 +13,7 @@ router.get("/card-limits/:card_id", cardController.getCardLimits);
 router.post("/update-limits", cardController.updateCardLimits);
 router.post("/update-card-type", cardController.updateCardType);
 router.post("/update-card-status", cardController.updateCardStatus);
+router.post("/activate-card", cardController.activateCard);
 
 
 export default router;

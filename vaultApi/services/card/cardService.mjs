@@ -259,8 +259,7 @@ const cardService = {
             const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/change-status?requiredStatus=${requiredStatus}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                },
-                json: payload,
+                }
             });
     
             const data = await response.json();
@@ -268,6 +267,26 @@ const cardService = {
         } catch (error) {
             console.error("Error updating card Status:", error);
             throw new Error("Failed to update card Status.");
+        }
+    },
+
+    activateCard: async (token, cardId, activationCode) => {
+        try {
+
+            const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/activate`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                json: {
+                    activationCode: activationCode
+                },
+            });
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error activating card:", error);
+            throw new Error("Failed to activate card.");
         }
     },
 }
