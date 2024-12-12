@@ -49,6 +49,30 @@ const cardController = {
         }
     },
 
+    getCardOffersList: async (req, res) => {
+        try {
+            // const token = req.cookie.token;
+            const cardOffers = await cardService.getCardOffersList(token);
+            res.status(200).json({data: cardOffers});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+    
+    resetCardPIN: async (req, res) => {
+        try {
+            // const token = req.cookie.token;
+            const cardId = req.params.card_id;
+            const pin = req.body.pin;
+            const resetPIN = await cardService.resetCardPIN(token, cardId, pin);
+            res.status(200).json({data: resetPIN});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
 
 
 

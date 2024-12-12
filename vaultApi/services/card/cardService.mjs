@@ -80,6 +80,40 @@ const cardService = {
         }
     },
 
+    getCardOffersList: async (token) => {
+        try {
+            const response = await kyInstance.get("card-holder/cardholder/card",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get List Card Offers", error);
+        }
+    },
+
+    resetCardPIN: async (token, cardId, pin) => {
+        try {
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/pin/reset`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    json: {
+                        pin: pin
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Reset Card PIN", error);
+        }
+    },
 }
 
 
