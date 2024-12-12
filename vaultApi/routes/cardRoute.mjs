@@ -15,6 +15,8 @@ router.post("/update-card-type", cardController.updateCardType);
 router.post("/update-card-status", cardController.updateCardStatus);
 router.post("/activate-card", cardController.activateCard);
 router.get("/card/:card_id", cardController.getCardInformation);
+router.get("/top-up/:card_id", cardController.getTopUpInformation);
+router.get("/sensitive-details/:card_id", cardController.getCardSensitiveDetails);
 
 
 export default router;

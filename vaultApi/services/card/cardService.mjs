@@ -13,15 +13,14 @@ const kyInstance = ky.create({
 });
 
 const cardService = {
+    // Function to retrieve the list of card offers
     getCardOfferList: async (token) => {
         try {
-            const response = await kyInstance.get("card-holder/cardoffer",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
+            const response = await kyInstance.get("card-holder/cardoffer", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 }
-            );
+            });
             const data = await response.json();
             return data;
         } catch (error) {
@@ -29,15 +28,14 @@ const cardService = {
         }
     },
 
+    // Function to retrieve the list of card requests
     getCardRequestList: async (token) => {
         try {
-            const response = await kyInstance.get("card-holder/cardrequest",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
+            const response = await kyInstance.get("card-holder/cardrequest", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 }
-            );
+            });
             const data = await response.json();
             return data;
         } catch (error) {
@@ -45,9 +43,10 @@ const cardService = {
         }
     },
     
-    createCardRequest: async (token, cardOfferId, accountId,  preferredCardname,  secondaryCardname,  
-        billingAddress,  deliveryAddress,cardDesignId) => {
+    // Function to create a new card request
+    createCardRequest: async (token, cardOfferId, accountId, preferredCardname, secondaryCardname, billingAddress, deliveryAddress, cardDesignId) => {
         try {
+            // Construct the payload with optional fields
             const payload = {
                 cardOfferId,
                 ...(accountId && { accountId }),
@@ -89,14 +88,12 @@ const cardService = {
                 }),
                 ...(cardDesignId && { cardDesignId }),
             };
-            const response = await kyInstance.post(`card-holder/cardrequest`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                    json: payload
+            const response = await kyInstance.post(`card-holder/cardrequest`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
-            );
+                json: payload
+            });
             const data = await response.json();
             return data;
         } catch (error) {
@@ -104,6 +101,7 @@ const cardService = {
         }
     },
 
+    // Function to retrieve transactions with optional filters
     getTransactions: async (token, cardId, status, startDate, endDate, size, page, sort) => {
         try {
             // Construct query parameters dynamically
@@ -133,15 +131,14 @@ const cardService = {
         }
     },
 
+    // Function to retrieve the list of card offers (duplicate method)
     getCardOffersList: async (token) => {
         try {
-            const response = await kyInstance.get("card-holder/cardholder/card",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
+            const response = await kyInstance.get("card-holder/cardholder/card", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 }
-            );
+            });
             const data = await response.json();
             return data;
         } catch (error) {
@@ -149,6 +146,7 @@ const cardService = {
         }
     },
 
+    // Function to reset the card PIN
     resetCardPIN: async (token, cardId, pin, secretQuestion, secretQuestionAnswer) => {
         try {
             // Construct the payload dynamically
@@ -173,15 +171,14 @@ const cardService = {
         }
     },
 
+    // Function to retrieve card limits
     getCardLimits: async (token, cardId) => {
         try {
-            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/limits`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/limits`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 }
-            );
+            });
             const data = await response.json();
             return data;
         } catch (error) {
@@ -191,7 +188,7 @@ const cardService = {
 
     updateCardLimits: async (token, cardId, transaction, daily, weekly, monthly, yearly, allTime) => {
         try {
-            // Construct the payload dynamically
+            // Construct the payload with optional card limit parameters
             const payload = {
                 ...(transaction && { transaction }),
                 ...(daily && { daily }),
@@ -201,6 +198,7 @@ const cardService = {
                 ...(allTime && { allTime }),
             };
     
+            // Send a POST request to update card limits
             const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/limits`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -208,6 +206,7 @@ const cardService = {
                 json: payload,
             });
     
+            // Parse and return the response data
             const data = await response.json();
             return data;
         } catch (error) {
@@ -218,7 +217,7 @@ const cardService = {
 
     updateCardType: async (token, cardId, cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber) => {
         try {
-            // Construct the payload dynamically
+            // Construct the payload with card type and delivery address details
             const payload = {
                 ...(cardType && { cardType }),
                 deliveryAddress: {
@@ -238,6 +237,7 @@ const cardService = {
                 }
             };
     
+            // Send a POST request to update card type
             const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/change-type`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -245,6 +245,7 @@ const cardService = {
                 json: payload,
             });
     
+            // Parse and return the response data
             const data = await response.json();
             return data;
         } catch (error) {
@@ -255,13 +256,14 @@ const cardService = {
 
     updateCardStatus: async (token, cardId, requiredStatus) => {
         try {
-
+            // Send a POST request to update card status with the required status
             const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/change-status?requiredStatus=${requiredStatus}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
     
+            // Parse and return the response data
             const data = await response.json();
             return data;
         } catch (error) {
@@ -272,7 +274,7 @@ const cardService = {
 
     activateCard: async (token, cardId, activationCode) => {
         try {
-
+            // Send a POST request to activate the card with the provided activation code
             const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/activate`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -282,6 +284,7 @@ const cardService = {
                 },
             });
     
+            // Parse and return the response data
             const data = await response.json();
             return data;
         } catch (error) {
@@ -292,18 +295,55 @@ const cardService = {
 
     getCardInformation: async (token, cardId) => {
         try {
-
+            // Send a GET request to retrieve card information
             const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
     
+            // Parse and return the response data
             const data = await response.json();
             return data;
         } catch (error) {
             console.error("Error getting card:", error);
             throw new Error("Failed to get card.");
+        }
+    },
+
+    getTopUpInformation: async (token, cardId) => {
+        try {
+            // Send a GET request to retrieve card top-up information
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/top-up-information`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            // Parse and return the response data
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error getting card top-up information:", error);
+            throw new Error("Failed to get card top-up information.");
+        }
+    },
+
+    getCardSensitiveDetails: async (token, cardId) => {
+        try {
+            // Send a GET request to retrieve card top-up information
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/sensitive-details`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            // Parse and return the response data
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error getting card sensitive details information:", error);
+            throw new Error("Failed to get card sensitive details information.");
         }
     },
 }
