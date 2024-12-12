@@ -53,8 +53,40 @@ const cardService = {
                 ...(accountId && { accountId }),
                 ...(preferredCardname && { preferredCardname }),
                 ...(secondaryCardname && { secondaryCardname }),
-                ...(billingAddress && { billingAddress }),
-                ...(deliveryAddress && { deliveryAddress }),
+                ...(billingAddress && { 
+                    billingAddress: {
+                        firstName: billingAddress.firstName,
+                        lastName: billingAddress.lastName,
+                        email: billingAddress.email,
+                        phone: billingAddress.phone,
+                        country: billingAddress.country,
+                        postCode: billingAddress.postCode,
+                        state: billingAddress.state,
+                        town: billingAddress.town,
+                        street: billingAddress.street,
+                        subStreet: billingAddress.subStreet,
+                        buildingName: billingAddress.buildingName,
+                        flatNumber: billingAddress.flatNumber,
+                        buildingNumber: billingAddress.buildingNumber,
+                    }
+                }),
+                ...(deliveryAddress && { 
+                    deliveryAddress: {
+                        firstName: deliveryAddress.firstName,
+                        lastName: deliveryAddress.lastName,
+                        email: deliveryAddress.email,
+                        phone: deliveryAddress.phone,
+                        country: deliveryAddress.country,
+                        postCode: deliveryAddress.postCode,
+                        state: deliveryAddress.state,
+                        town: deliveryAddress.town,
+                        street: deliveryAddress.street,
+                        subStreet: deliveryAddress.subStreet,
+                        buildingName: deliveryAddress.buildingName,
+                        flatNumber: deliveryAddress.flatNumber,
+                        buildingNumber: deliveryAddress.buildingNumber,
+                    }
+                }),
                 ...(cardDesignId && { cardDesignId }),
             };
             const response = await kyInstance.post(`card-holder/cardrequest`,
