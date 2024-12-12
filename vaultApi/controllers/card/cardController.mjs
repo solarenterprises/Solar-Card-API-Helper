@@ -155,7 +155,29 @@ const cardController = {
             res.status(500).json({result: "failed"});
         }
     },   
-    
+
+    updateCardType: async (req, res) => {
+        try {
+            const REQUIRED_STATUS = ["INIT", "PENDING", "ISSUED", "ACTIVE", "FROZEN", "LOST", "STOLEN", "INACTIVE", "CLOSED", "REJECTED"];
+            // const token = req.cookie.token;
+            if (!token) {
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            
+            const { cardId, requiredStatus } = req.body;
+            
+            if(!REQUIRED_STATUS.includes(requiredStatus)) {
+                return res.status(400).json({ result: "failed", message: "REQUIRED_STATUS type error" });
+            }
+
+            const card = await cardService.updateCardStatus(token, cardId, requiredStatus);
+            res.status(200).json({data: card});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },   
+
 
 };
 

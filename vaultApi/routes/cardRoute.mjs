@@ -12,5 +12,7 @@ router.post("/reset-card-pin", cardController.resetCardPIN);
 router.get("/card-limits/:card_id", cardController.getCardLimits);
 router.post("/update-limits", cardController.updateCardLimits);
 router.post("/update-card-type", cardController.updateCardType);
+router.post("/update-card-status", cardController.updateCardStatus);
+
 
 export default router;

@@ -252,6 +252,24 @@ const cardService = {
             throw new Error("Failed to update card type.");
         }
     },
+
+    updateCardType: async (token, cardId, requiredStatus) => {
+        try {
+
+            const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/change-status?requiredStatus=${requiredStatus}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                json: payload,
+            });
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error updating card Status:", error);
+            throw new Error("Failed to update card Status.");
+        }
+    },
 }
 
 
