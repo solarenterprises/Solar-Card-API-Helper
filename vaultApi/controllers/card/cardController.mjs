@@ -156,7 +156,7 @@ const cardController = {
         }
     },   
 
-    updateCardType: async (req, res) => {
+    updateCardStatus: async (req, res) => {
         try {
             const REQUIRED_STATUS = ["INIT", "PENDING", "ISSUED", "ACTIVE", "FROZEN", "LOST", "STOLEN", "INACTIVE", "CLOSED", "REJECTED"];
             // const token = req.cookie.token;

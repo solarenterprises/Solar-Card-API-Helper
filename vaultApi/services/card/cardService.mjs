@@ -253,7 +253,7 @@ const cardService = {
         }
     },
 
-    updateCardType: async (token, cardId, requiredStatus) => {
+    updateCardStatus: async (token, cardId, requiredStatus) => {
         try {
 
             const response = await kyInstance.post(`card-holder/cardholder/card/${cardId}/change-status?requiredStatus=${requiredStatus}`, {
