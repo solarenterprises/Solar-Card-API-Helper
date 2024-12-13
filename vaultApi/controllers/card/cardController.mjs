@@ -339,6 +339,28 @@ const cardController = {
         }
     },   
 
+    getCardTransactions: async (req, res) => {
+        try {
+            const token = req.cookie.token; // Retrieve authentication token from cookies
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            // Extracting cardId from the request parameters
+            const cardId = req.params.card_id;
+            // Extracting optional query parameters from the request
+            const status = req.query.status || null;
+            const page = req.query.page || null;
+            const size = req.query.size || null;
+            
+            const cardTransactions = await cardService.getCardTransactions(token, cardId, status, page, size);
+            res.status(200).json({data: cardTransactions});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },   
+
 };
 
 export default cardController;

@@ -20,5 +20,6 @@ router.get("/sensitive-details/:card_id", cardController.getCardSensitiveDetails
 router.get("/pin/:card_id", cardController.getCardPin);
 router.get("/detail/:card_id", cardController.getCardDetail);
 router.get("/balance/:card_id", cardController.getCardBalance);
+router.get("/transactions/:card_id", cardController.getCardTransactions);
 
 export default router;

@@ -400,6 +400,31 @@ const cardService = {
             throw new Error("Failed to get card balance.");
         }
     },
+
+    getCardTransactions: async (token, cardId, status, page, size) => {
+        try {
+            // Construct query parameters
+            const searchParams = new URLSearchParams();
+            if (status) searchParams.append('status', status);
+            if (page) searchParams.append('page', page);
+            if (size) searchParams.append('size', size);
+
+            // Send a GET request to retrieve card transactions with query parameters
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/transactions?${searchParams}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                
+            });
+    
+            // Parse and return the response data
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error getting card transactions:", error);
+            throw new Error("Failed to get card transactions.");
+        }
+    },
 }
 
 
