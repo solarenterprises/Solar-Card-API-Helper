@@ -282,7 +282,24 @@ const cardController = {
         }
     },   
 
-
+    getCardPin: async (req, res) => {
+        try {
+            const token = req.cookie.token; // Retrieve authentication token from cookies
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+            
+            // Extracting cardId from the request parameters
+            const cardId = req.params.card_id;
+            
+            const cardPin = await cardService.getCardPin(token, cardId);
+            res.status(200).json({data: cardPin});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },   
 
 };
 
