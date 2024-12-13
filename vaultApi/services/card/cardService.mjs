@@ -364,6 +364,24 @@ const cardService = {
             throw new Error("Failed to get card pin.");
         }
     },
+
+    getCardDetail: async (token, cardId) => {
+        try {
+            // Send a GET request to retrieve card details information
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/details`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            // Parse and return the response data
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error getting card details:", error);
+            throw new Error("Failed to get card details.");
+        }
+    },
 }
 
 
