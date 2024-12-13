@@ -382,6 +382,24 @@ const cardService = {
             throw new Error("Failed to get card details.");
         }
     },
+
+    getCardBalance: async (token, cardId) => {
+        try {
+            // Send a GET request to retrieve card balance
+            const response = await kyInstance.get(`card-holder/cardholder/card/${cardId}/balance`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            // Parse and return the response data
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error getting card balance:", error);
+            throw new Error("Failed to get card balance.");
+        }
+    },
 }
 
 
