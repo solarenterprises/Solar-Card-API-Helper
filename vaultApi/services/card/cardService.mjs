@@ -414,7 +414,6 @@ const cardService = {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                
             });
     
             // Parse and return the response data
