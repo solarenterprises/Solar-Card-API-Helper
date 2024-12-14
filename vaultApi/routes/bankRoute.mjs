@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.get("/", bankController.getUserBankAccount);
 router.post("/create", bankController.createUserBankAccount);
+router.get("/uuid/:uuid", bankController.getBankAccountByUuid);
 
 export default router;
