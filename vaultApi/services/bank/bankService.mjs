@@ -14,12 +14,11 @@ const kyInstance = ky.create({
 
 const bankService = {
 
-    gerUserBankAccount: async (token, accountId, status) => {
+    getUserBankAccount: async (token, accountId, status) => {
         
-        const queryParams = new URLSearchParams({
-            ...(accountId && { accountId }),
-            ...(status && { status })
-        });
+        const queryParams = new URLSearchParams();
+        if(accountId) queryParams.append("account_id", accountId);
+        if(status) queryParams.append("status", status);
 
         try {
             const response = kyInstance.get(`bank/bank-account/${queryParams.toString()}`, {
@@ -34,7 +33,29 @@ const bankService = {
             console.log(error);
             throw new Error("Getting bank account");
         }
-    }
+    },
+
+    createUserBankAccount: async (token, accountId, currency) => {
+        
+        const queryParams = new URLSearchParams();
+        if(accountId) queryParams.append("account_id", accountId);
+        if(currency) queryParams.append("currency", currency);
+
+
+        try {
+            const response = kyInstance.post(`bank/bank-account/${queryParams.toString()}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Creating bank account");
+        }
+    },
 }
 
 export default bankService
