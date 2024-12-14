@@ -4,7 +4,7 @@ import accountService from '../../services/currency/accountService.mjs';
 const accountController = {
     getPreferredCurrencies: async (req, res) => {
         try {
-            const token = req.cookie.token;
+            const token = req.cookies.token;
             const {accountId} = req.body;
             const tokenResponse = await accountService.getPreferredCurrencies(accountId, token);
             res.status(200).json({data: tokenResponse});
@@ -16,7 +16,7 @@ const accountController = {
 
     setPreferredCurrencies: async (req, res) => {
         try {
-            const token = req.cookie.token;
+            const token = req.cookies.token;
             const {currencies, accountId} = req.body;
             const tokenResponse = await accountService.getPreferredCurrencies(accountId, currencies, token);
             res.status(200).json({data: tokenResponse});

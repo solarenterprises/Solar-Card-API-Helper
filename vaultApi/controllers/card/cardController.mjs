@@ -5,7 +5,7 @@ const cardController = {
     // Controller method to get the list of card offers
     getCardOfferList: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -21,7 +21,7 @@ const cardController = {
     // Controller method to get the list of card requests
     getCardRequestList: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -37,7 +37,7 @@ const cardController = {
     // Controller method to create a new card request
     createCardRequest: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -69,7 +69,7 @@ const cardController = {
     // Controller method to get transactions for a card
     getTransactions: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -94,7 +94,7 @@ const cardController = {
     // Controller method to get the list of card offers (duplicate method)
     getCardOffersList: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -110,7 +110,7 @@ const cardController = {
     // Controller method to reset card PIN
     resetCardPIN: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -127,7 +127,7 @@ const cardController = {
     // Controller method to get card limits
     getCardLimits: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -144,7 +144,7 @@ const cardController = {
     // Controller method to update card limits
     updateCardLimits: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -161,7 +161,7 @@ const cardController = {
     // Controller method to update the card type
     updateCardType: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -180,7 +180,7 @@ const cardController = {
     updateCardStatus: async (req, res) => {
         try {
             const REQUIRED_STATUS = ["INIT", "PENDING", "ISSUED", "ACTIVE", "FROZEN", "LOST", "STOLEN", "INACTIVE", "CLOSED", "REJECTED"];
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -205,7 +205,7 @@ const cardController = {
     // Controller method to activate a card
     activateCard: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -225,7 +225,7 @@ const cardController = {
     // Controller method to get card information
     getCardInformation: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -245,7 +245,7 @@ const cardController = {
     // Controller method to get top-up information
     getTopUpInformation: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -265,7 +265,7 @@ const cardController = {
     // Controller method to get sensitive details information
     getCardSensitiveDetails: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -284,7 +284,7 @@ const cardController = {
 
     getCardPin: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -303,7 +303,7 @@ const cardController = {
 
     getCardDetail: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -322,7 +322,7 @@ const cardController = {
 
     getCardBalance: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
@@ -341,7 +341,7 @@ const cardController = {
 
     getCardTransactions: async (req, res) => {
         try {
-            const token = req.cookie.token; // Retrieve authentication token from cookies
+            const token = req.cookies.token; // Retrieve authentication token from cookies
             if (!token) {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
