@@ -58,8 +58,6 @@ const bankService = {
     },
 
     getUserBankAccountByUuid: async (token, uuid) => {
-        
-
         try {
             const response = kyInstance.get(`bank/bank-account/${uuid}`, {
                 headers: {
@@ -74,6 +72,23 @@ const bankService = {
             throw new Error("Get Bank Account by UUID");
         }
     },
+
+    deleteBankAccountByUuid: async (token, uuid) => {
+        try {
+            const response = kyInstance.delete(`bank/bank-account/${uuid}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Delete Bank Account by UUID");
+        }
+    },
+
 }
 
 export default bankService

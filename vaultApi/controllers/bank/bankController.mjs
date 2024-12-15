@@ -58,6 +58,24 @@ const bankController = {
         }
     },
 
+    deleteBankAccountByUuid: async (req, res) => {
+        try {
+            const token = req.cookies.token; // Retrieve authentication token from cookies
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+                
+            const uuid = req.params.uuid;
+
+            const bankAccount = await bankService.deleteBankAccountByUuid(token, uuid);
+            res.status(200).json({data: bankAccount}); 
+        } catch (error) {
+            console.log(error); // Log any errors encountered
+            res.status(500).json({result: "failed"}); // Return 500 status on error
+        }
+    },
+
 
 }
 
