@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/card-offer', cardController.getCardOfferList);
 router.get('/card-request', cardController.getCardRequestList);
+// need CardOfferId but not sure how to obtain
 router.post("/create-card", cardController.createCardRequest);
 router.get("/transactions", cardController.getTransactions);
 router.get("/card-offers", cardController.getCardOffersList);

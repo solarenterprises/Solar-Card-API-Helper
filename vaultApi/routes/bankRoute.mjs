@@ -3,8 +3,7 @@ import bankController from "../controllers/bank/bankController.mjs";
 const router = express.Router();
 
 // not working at all
-// need contact to vault team
-
+// 403 ERROR
 router.get("/", bankController.getUserBankAccount);
 router.post("/create", bankController.createUserBankAccount);
 router.get("/uuid/:uuid", bankController.getBankAccountByUuid);

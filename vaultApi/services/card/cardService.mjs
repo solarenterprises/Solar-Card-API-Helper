@@ -104,16 +104,14 @@ const cardService = {
     // Function to retrieve transactions with optional filters
     getTransactions: async (token, cardId, status, startDate, endDate, size, page, sort) => {
         try {
-            // Construct query parameters dynamically
-            const queryParams = new URLSearchParams({
-                cardId,
-                ...(status && { status }),
-                ...(startDate && { startDate }),
-                ...(endDate && { endDate }),
-                ...(size && { size }),
-                ...(page && { page }),
-                ...(sort && { sort }),
-            });
+            const queryParams = new URLSearchParams();
+            queryParams.append("cardId", cardId);
+            if(status) queryParams.append("status", status);
+            if(startDate) queryParams.append("startDate", startDate);
+            if(endDate) queryParams.append("endDate", endDate);
+            if(size) queryParams.append("size", size);
+            if(page) queryParams.append("page", page);
+            if(sort) queryParams.append("sort", sort);
     
             // Make the request
             const response = await kyInstance.get(`card-holder/transaction?${queryParams.toString()}`, {
