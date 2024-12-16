@@ -31,7 +31,8 @@ const accountService = {
             const data = await response.json();
             return data;
         } catch (error) {
-            throw new Error("Create Account", error);
+            console.log(error);
+            throw new Error("Create Account");
         }
     },
 
@@ -47,7 +48,35 @@ const accountService = {
             const data = await response.json();
             return data;
         } catch (error) {
-            throw new Error("Get account by id", error);
+            console.log(error);
+            throw new Error("Get account by id");
+        }
+    },
+
+    updateWalletAccountById: async (token, accountId, account, accountType, shortName, currency, blockchain) => {
+        try {
+            const payload = {
+                account: account,
+                accountType: accountType,
+                shortName: shortName,
+            }
+
+            if (currency) payload.currency = currency;
+            if (blockchain) payload.blockchain = blockchain;
+
+            const response = await kyInstance.put(`wallet/account/${accountId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    json: payload
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error)
+            throw new Error("Update account by id");
         }
     },
 }
