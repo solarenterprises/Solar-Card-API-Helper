@@ -27,6 +27,29 @@ const addressController = {
         }
     },
 
+    checkCryptoCurrencyAddressValidation: async (req, res) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+
+            const address = req.query.address || null;
+            const blockchain = req.query.blockchain || null;
+
+            if(!(address && blockchain)) {
+                return res.status(400).json({result: "failed", message: "Address and blockchain are required"});
+            }
+
+            const validation = await addressService.checkCryptoCurrencyAddressValidation(token, address, blockchain);
+            res.status(200).json({data: validation});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
 };
 
 export default addressController;

@@ -24,7 +24,7 @@ const addressService = {
 
         try {
 
-            const response = await kyInstance.put(`wallet/v2/address/list/${queryParams.toString()}`,
+            const response = await kyInstance.put(`wallet/v2/address/list${queryParams.toString()}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -36,6 +36,29 @@ const addressService = {
         } catch (error) {
             console.log(error)
             throw new Error("List Address Details");
+        }
+    },
+
+    checkCryptoCurrencyAddressValidation: async (token, address, blockchain) => {
+
+        const queryParams = new URLSearchParams();
+        queryParams.append("address", address);
+        queryParams.append("blockchain", blockchain);
+
+        try {
+
+            const response = await kyInstance.put(`wallet/v2/address/format/validation${queryParams.toString()}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error)
+            throw new Error("Crypto Address Format Validation");
         }
     },
 }
