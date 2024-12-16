@@ -78,7 +78,6 @@ const accountController = {
             res.status(500).json({result: "failed"});
         }
     },
-
 };
 
 export default accountController;

@@ -1,4 +1,4 @@
-// services/currency/accountService.mjs
+// services/wallet/accountService.mjs
 import ky from 'ky';
 import config from '../../config/config.mjs';
 
