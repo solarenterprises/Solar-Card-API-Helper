@@ -79,6 +79,23 @@ const accountService = {
             throw new Error("Update account by id");
         }
     },
+
+    getAllWalletAccounts: async (token) => {
+        try {
+            const response = await kyInstance.put("wallet/account",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error)
+            throw new Error("List all accounts");
+        }
+    },
 }
 
 
