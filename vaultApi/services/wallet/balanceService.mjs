@@ -23,7 +23,7 @@ const balanceService = {
 
         try {
 
-            const response = await kyInstance.get(`wallet/balance${queryParams.toString()}`,
+            const response = await kyInstance.get(`wallet/balance?${queryParams.toString()}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -41,12 +41,12 @@ const balanceService = {
     touchBalanceForCurrency: async (token, accountId, currency) => {
 
         const queryParams = new URLSearchParams();
-        if(accountId) queryParams.append("accountId", accountId);
-        if(currency) queryParams.append("currency", currency);      
+        queryParams.append("accountId", accountId);
+        queryParams.append("currency", currency);      
 
         try {
 
-            const response = await kyInstance.post(`wallet/balance${queryParams.toString()}`,
+            const response = await kyInstance.post(`wallet/balance?${queryParams.toString()}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

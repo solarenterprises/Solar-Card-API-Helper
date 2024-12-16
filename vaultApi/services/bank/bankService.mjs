@@ -21,7 +21,7 @@ const bankService = {
         if(status) queryParams.append("status", status);
 
         try {
-            const response = kyInstance.get(`bank/bank-account/${queryParams.toString()}`, {
+            const response = kyInstance.get(`bank/bank-account?${queryParams.toString()}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
@@ -43,7 +43,7 @@ const bankService = {
 
 
         try {
-            const response = kyInstance.post(`bank/bank-account/${queryParams.toString()}`, {
+            const response = kyInstance.post(`bank/bank-account?${queryParams.toString()}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

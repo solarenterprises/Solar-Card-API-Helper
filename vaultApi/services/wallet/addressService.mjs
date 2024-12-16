@@ -24,7 +24,7 @@ const addressService = {
 
         try {
 
-            const response = await kyInstance.put(`wallet/v2/address/list${queryParams.toString()}`,
+            const response = await kyInstance.put(`wallet/v2/address/list?${queryParams.toString()}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -47,7 +47,7 @@ const addressService = {
 
         try {
 
-            const response = await kyInstance.put(`wallet/v2/address/format/validation${queryParams.toString()}`,
+            const response = await kyInstance.put(`wallet/v2/address/format/validation?${queryParams.toString()}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

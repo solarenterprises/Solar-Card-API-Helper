@@ -33,6 +33,10 @@ const balanceController = {
             const accountId = req.query.accountId || null;
             const currency = req.query.currency || null;
 
+            if(!(accountId && currency)) {
+                return res.status(400).json({result: "failed", message: "AccountId and currency are required"});
+            }
+
             const touchBalance = await balanceService.touchBalanceForCurrency(token, accountId, currency);
             res.status(200).json({data: touchBalance});
         } catch (error) {
