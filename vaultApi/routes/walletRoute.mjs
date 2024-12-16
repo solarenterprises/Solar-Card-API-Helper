@@ -14,5 +14,6 @@ router.get("/address/validation", addressController.checkCryptoCurrencyAddressVa
 //
 router.get("/balance", balanceController.getAccountBalances);
 router.post("/balance-touch", balanceController.touchBalanceForCurrency);
+router.get("/paged-balance", balanceController.getPagedBalance)
 
 export default router;
