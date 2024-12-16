@@ -80,8 +80,6 @@ const balanceService = {
         if(page) queryParams.append("page", page);      
         if(size) queryParams.append("size", size);      
 
-        console.log(queryParams.toString())
-
         try {
             const response = await kyInstance.get(`wallet/balance/log?${queryParams.toString()}`,
                 {
@@ -95,6 +93,24 @@ const balanceService = {
         } catch (error) {
             console.log(error)
             throw new Error("Get Paged Balance Log");
+        }
+    },
+
+    getBalanceLogById: async (token, logId) => {
+
+        try {
+            const response = await kyInstance.get(`wallet/balance/log/${logId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error)
+            throw new Error("Get balance log receipt");
         }
     },
 }

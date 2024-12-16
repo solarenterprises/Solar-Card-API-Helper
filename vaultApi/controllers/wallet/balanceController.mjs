@@ -74,6 +74,27 @@ const balanceController = {
         }
     },
 
+    getBalanceLogById: async (req, res) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+
+            const logId = req.params.log_id || null;
+            if(!logId) {
+                return res.status(400).json({result: "failed", message: "LogId is required"});
+            }
+
+            const balanceLog = await balanceService.getBalanceLogById(token, logId);
+            res.status(200).json({data: balanceLog});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
 
 
 
