@@ -21,7 +21,7 @@ const accountService = {
             if(currency) queryParams.append("currency", currency);
             if(blockchain) queryParams.append("blockchain", blockchain);
 
-            const response = await kyInstance.post(`wallet/account/${queryParams.toString()}`,
+            const response = await kyInstance.post(`wallet/account?${queryParams.toString()}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -32,6 +32,22 @@ const accountService = {
             return data;
         } catch (error) {
             throw new Error("Create Account", error);
+        }
+    },
+
+    getWalletAccountById: async (token, accountId) => {
+        try {
+            const response = await kyInstance.get(`wallet/account/${accountId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Get account by id", error);
         }
     },
 }
