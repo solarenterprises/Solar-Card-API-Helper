@@ -3,6 +3,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 import authRoute from "./vaultApi/routes/authRoute.mjs";
 import currencyRoute from "./vaultApi/routes/currencyRoute.mjs";
+import cardRoute from "./vaultApi/routes/cardRoute.mjs";
+import walletRoute from "./vaultApi/routes/walletRoute.mjs";
 import dotenv from 'dotenv';
 dotenv.config(); // This loads environment variables from the .env file into `process.env`
 
@@ -20,8 +22,10 @@ app.get('/', ()=>{
     console.log('hello');
 })
 
-app.use("/currency", currencyRoute);
 app.use("/", authRoute);
+app.use("/currency", currencyRoute);
+app.use("/card", cardRoute);
+app.use("/wallet", walletRoute);
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
