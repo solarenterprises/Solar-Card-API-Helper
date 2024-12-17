@@ -106,11 +106,35 @@ const counterPartyController = {
 
             const { id, type, rail, currency, institutionName, institutionAddress, description, profile, swiftBic, accountNumber, intermediary } = req.body;
 
-            if (!type || !rail || !profile || !profile.profileType || !profile.name || !profile.relationshipToCustomer || !accountNumber ) {
+            if (!type || !rail || !institutionName  || !profile || !profile.profileType || !profile.name || !profile.relationshipToCustomer || !accountNumber ) {
                 return res.status(400).json({ result: "failed", message: "All fields are required" });
             }
 
             const newCounterParty = await counterPartyService.createNewCounterPartyForSwift(token, {id, type, rail, currency, institutionName, institutionAddress, description, profile, swiftBic, accountNumber, intermediary})
+
+            res.status(200).json({ data: newCounterParty });
+            
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
+    createNewCounterPartyForSepa: async (req, res) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+
+            const { id, type, rail, currency, institutionName, institutionAddress, description, profile, iban, swiftBic } = req.body;
+
+            if (!type || !rail  || !institutionName  || !profile || !profile.profileType || !profile.name || !profile.relationshipToCustomer ) {
+                return res.status(400).json({ result: "failed", message: "All fields are required" });
+            }
+
+            const newCounterParty = await counterPartyService.createNewCounterPartyForSepa(token, {id, type, rail, currency, institutionName, institutionAddress, description, profile, iban, swiftBic})
 
             res.status(200).json({ data: newCounterParty });
             
