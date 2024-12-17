@@ -22,6 +22,7 @@ router.get("/balance/:log_id", balanceController.getBalanceLogById);
 router.get("/counterparty/:counterParty_id", counterPartyController.getCounterPartyById);
 router.post("/counterparty/new-crypto", counterPartyController.createNewCounterPartyForCrypto);
 router.post("/counterparty/new-ach", counterPartyController.createNewCounterPartyForACH);
+router.post("/counterparty/new-ach", counterPartyController.createNewCounterPartyForFedwire);
 
 
 export default router;
