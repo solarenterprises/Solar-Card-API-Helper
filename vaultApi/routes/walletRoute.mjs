@@ -23,6 +23,7 @@ router.get("/counterparty/:counterParty_id", counterPartyController.getCounterPa
 router.post("/counterparty/new-crypto", counterPartyController.createNewCounterPartyForCrypto);
 router.post("/counterparty/new-ach", counterPartyController.createNewCounterPartyForACH);
 router.post("/counterparty/new-ach", counterPartyController.createNewCounterPartyForFedwire);
+router.post("/counterparty/new-swift", counterPartyController.createNewCounterPartyForSwift);
 
 
 export default router;
