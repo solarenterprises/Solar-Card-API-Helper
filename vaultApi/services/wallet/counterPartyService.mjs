@@ -154,7 +154,7 @@ const counterPartyService = {
             };
 
 
-            const response = await kyInstance.get(`wallet/counterparty`,
+            const response = await kyInstance.post(`wallet/counterparty`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
