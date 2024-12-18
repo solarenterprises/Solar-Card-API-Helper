@@ -24,7 +24,7 @@ app.get('/', ()=>{
 
 app.use("/", authRoute);
 app.use("/currency", currencyRoute);
-app.use("/card", cardRoute);
+app.use("/card-holder", cardRoute);
 app.use("/wallet", walletRoute);
 
 // Socket.IO connection event
