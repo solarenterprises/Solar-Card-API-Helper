@@ -115,7 +115,16 @@ const cardController = {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
-            const {cardId, pin, secretQuestion, secretQuestionAnswer} = req.body; // Extract necessary fields from the request body
+            const cardId = req.params.card_id;
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+            const {pin, secretQuestion, secretQuestionAnswer} = req.body; // Extract necessary fields from the request body
+
+            if(!pin) {
+                return res.status(400).json({ result: "failed", message: "Pin is required." });
+            }
+
             const resetPIN = await cardService.resetCardPIN(token, cardId, pin, secretQuestion, secretQuestionAnswer); // Reset card PIN using the service
             res.status(200).json({data: resetPIN}); // Respond with the reset PIN data
         } catch (error) {
@@ -133,6 +142,10 @@ const cardController = {
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
             const cardId = req.params.card_id; // Extract card ID from request parameters
+            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
             const card = await cardService.getCardLimits(token, cardId); // Fetch card limits using the service
             res.status(200).json({data: card}); // Respond with the card limits data
         } catch (error) {
@@ -149,7 +162,14 @@ const cardController = {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
-            const { cardId, transaction, daily, weekly, monthly, yearly, allTime } = req.body; // Extract necessary fields from the request body
+            
+            const cardId = req.params.card_id; // Extract card ID from request parameters
+            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
+            const { transaction, daily, weekly, monthly, yearly, allTime } = req.body; // Extract necessary fields from the request body
             const card = await cardService.updateCardLimits(token, cardId, transaction, daily, weekly, monthly, yearly, allTime); // Update card limits using the service
             res.status(200).json({data: card}); // Respond with the updated card limits data
         } catch (error) {
@@ -166,8 +186,19 @@ const cardController = {
                 // Return 401 if token is missing
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
+            const cardId = req.params.card_id; // Extract card ID from request parameters
+            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
             // Extracting necessary fields from the request body
-            const { cardId, cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber } = req.body;
+            const { cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber } = req.body;
+                        
+            if(!cardType) {
+                return res.status(400).json({ result: "failed", message: "Card type is required." });
+            }
+
             const card = await cardService.updateCardType(token, cardId, cardType, firstName, lastName, email, phone, country, postCode, state, town, street, subStreet, buildingName, flatNumber, buildingNumber);
             res.status(200).json({data: card});
         } catch (error) {
@@ -186,8 +217,13 @@ const cardController = {
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
             
-            // Extracting cardId and requiredStatus from the request body
-            const { cardId, requiredStatus } = req.body;
+            const cardId = req.params.card_id; // Extract card ID from request parameters
+            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
+            const requiredStatus = req.query.requiredStatus;
             
             // Validate the requiredStatus against predefined statuses
             if(!REQUIRED_STATUS.includes(requiredStatus)) {
@@ -211,8 +247,17 @@ const cardController = {
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
             
-            // Extracting cardId and activationCode from the request body
-            const { cardId, activationCode } = req.body;
+            const cardId = req.params.card_id; // Extract card ID from request parameters
+            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
+            const activationCode = req.body.requiredStatus;
+
+            if(!activationCode) {
+                return res.status(400).json({ result: "failed", message: "Activation Code is required." });
+            }
             
             const card = await cardService.activateCard(token, cardId, activationCode);
             res.status(200).json({data: card});
@@ -233,7 +278,11 @@ const cardController = {
             
             // Extracting cardId from the request parameters
             const cardId = req.params.card_id;
-            
+
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
             const card = await cardService.getCardInformation(token, cardId);
             res.status(200).json({data: card});
         } catch (error) {
@@ -252,7 +301,10 @@ const cardController = {
             }
             
             // Extracting cardId from the request parameters
-            const cardId = req.params.card_id;
+            const cardId = req.params.card_id;            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
             
             const topUp = await cardService.getTopUpInformation(token, cardId);
             res.status(200).json({data: topUp});
@@ -272,7 +324,11 @@ const cardController = {
             }
             
             // Extracting cardId from the request parameters
-            const cardId = req.params.card_id;
+            // Extracting cardId from the request parameters
+            const cardId = req.params.card_id;            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
             
             const sensitiveDetail = await cardService.getCardSensitiveDetails(token, cardId);
             res.status(200).json({data: sensitiveDetail});
@@ -292,7 +348,10 @@ const cardController = {
             
             // Extracting cardId from the request parameters
             const cardId = req.params.card_id;
-            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
             const cardPin = await cardService.getCardPin(token, cardId);
             res.status(200).json({data: cardPin});
         } catch (error) {
@@ -311,7 +370,10 @@ const cardController = {
             
             // Extracting cardId from the request parameters
             const cardId = req.params.card_id;
-            
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+
             const cardInformation = await cardService.getCardDetail(token, cardId);
             res.status(200).json({data: cardInformation});
         } catch (error) {
@@ -330,6 +392,10 @@ const cardController = {
             
             // Extracting cardId from the request parameters
             const cardId = req.params.card_id;
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+            
             
             const cardBalance = await cardService.getCardBalance(token, cardId);
             res.status(200).json({data: cardBalance});
@@ -348,6 +414,10 @@ const cardController = {
             }
             // Extracting cardId from the request parameters
             const cardId = req.params.card_id;
+            if(!cardId) {
+                return res.status(400).json({ result: "failed", message: "Card Id is required." });
+            }
+            
             // Extracting optional query parameters from the request
             const status = req.query.status || null;
             const page = req.query.page || null;

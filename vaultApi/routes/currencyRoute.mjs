@@ -7,19 +7,19 @@ import currencyController from "../controllers/currency/currencyController.mjs";
 const router = express.Router();
 
 
-router.get("/all-tokens", tokenController.getAllTokens);
-router.get("/short-all-tokens", tokenController.getAllTokensShort);
+router.get("/token", tokenController.getAllTokens);
+router.get("/token/short", tokenController.getAllTokensShort);
 // not found 
-router.get("/preferred-currencies", accountController.getPreferredCurrencies);
-router.post("/preferred-currencies", accountController.setPreferredCurrencies);
+router.get("/preferred", accountController.getPreferredCurrencies);
+router.post("/preferred", accountController.setPreferredCurrencies);
 ///////////////////////////
-router.get("/blockchain-list", blockchainListController.getBlockchainList);
+router.get("/blockchain", blockchainListController.getBlockchainList);
 router.get("/rate", rateController.getRate);
-router.get("/all-instruments", rateController.getAllInstruments);
-router.get("/instrument/:instrument_id", rateController.getInstrumentDetail);
-router.get("/all-currencies", currencyController.getAllCurrencies);
-router.get("/currency/:currency_slug", currencyController.getCurrencyBySlug);
-router.get("/currencies/short", currencyController.getShortCurrencyList);
+router.get("/instruments", rateController.getAllInstruments);
+router.get("/instruments/:instrument_id", rateController.getInstrumentDetail);
+router.get("/currency", currencyController.getAllCurrencies);
+router.get("/currency/slug/:currency_slug", currencyController.getCurrencyBySlug);
+router.get("/currency/short", currencyController.getShortCurrencyList);
 router.get("/currency/name/:currency_name", currencyController.getCurrencyByName)
 
 export default router;

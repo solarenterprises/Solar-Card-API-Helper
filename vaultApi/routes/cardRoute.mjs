@@ -3,24 +3,24 @@ import cardController from "../controllers/card/cardController.mjs";
 const router = express.Router();
 
 
-router.get('/card-offer', cardController.getCardOfferList);
-router.get('/card-request', cardController.getCardRequestList);
+router.get('/cardoffer', cardController.getCardOfferList);
+router.get('/cardrequest', cardController.getCardRequestList);
 // need CardOfferId but not sure how to obtain
-router.post("/create-card", cardController.createCardRequest);
-router.get("/transactions", cardController.getTransactions);
-router.get("/card-offers", cardController.getCardOffersList);
-router.post("/reset-card-pin", cardController.resetCardPIN);
-router.get("/card-limits/:card_id", cardController.getCardLimits);
-router.post("/update-limits", cardController.updateCardLimits);
-router.post("/update-card-type", cardController.updateCardType);
-router.post("/update-card-status", cardController.updateCardStatus);
-router.post("/activate-card", cardController.activateCard);
-router.get("/card/:card_id", cardController.getCardInformation);
-router.get("/top-up/:card_id", cardController.getTopUpInformation);
-router.get("/sensitive-details/:card_id", cardController.getCardSensitiveDetails);
-router.get("/pin/:card_id", cardController.getCardPin);
-router.get("/detail/:card_id", cardController.getCardDetail);
-router.get("/balance/:card_id", cardController.getCardBalance);
-router.get("/transactions/:card_id", cardController.getCardTransactions);
+router.post("/cardrequest", cardController.createCardRequest);
+router.get("/transaction", cardController.getTransactions);
+router.get("/cardholder/card", cardController.getCardOffersList);
+router.post("/cardholder/card/:card_id/pin/reset", cardController.resetCardPIN);
+router.get("cardholder/card/:card_id/limits", cardController.getCardLimits);
+router.post("/cardholder/card/:card_id/limits", cardController.updateCardLimits);
+router.post("/cardholder/card/:card_id/change-type", cardController.updateCardType);
+router.post("/cardholder/card/:card_id/change-status", cardController.updateCardStatus);
+router.post("/cardholder/card/:card_id/activate", cardController.activateCard);
+router.get("/cardholder/card/:card_id", cardController.getCardInformation);
+router.get("/cardholder/card/:card_id/top-up-information", cardController.getTopUpInformation);
+router.get("/cardholder/card/:card_id/sensitive-details", cardController.getCardSensitiveDetails);
+router.get("/cardholder/card/:card_id/pin", cardController.getCardPin);
+router.get("/cardholder/card/:card_id/details", cardController.getCardDetail);
+router.get("/cardholder/card/:card_id/balance", cardController.getCardBalance);
+router.get("/cardholder/card/:card_id/transactions", cardController.getCardTransactions);
 
 export default router;

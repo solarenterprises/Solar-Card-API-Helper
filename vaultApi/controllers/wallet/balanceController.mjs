@@ -94,10 +94,6 @@ const balanceController = {
             res.status(500).json({result: "failed"});
         }
     },
-
-
-
-
 };
 
 export default balanceController;
