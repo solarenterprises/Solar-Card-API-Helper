@@ -22,6 +22,7 @@ router.get("/balance/log/:log_id", balanceController.getBalanceLogById);
 router.get("/counterparty/:counterParty_id", counterPartyController.getCounterPartyById);
 router.post("/counterparty", counterPartyController.createNewCounterParty);
 router.put("/counterparty/:counterParty_id", counterPartyController.updateCounterPartyById);
-
+router.delete("/counterparty/:counterParty_id", counterPartyController.deleteCounterPartyById);
+router.get("/counterparty", counterPartyController.getCounterParties);
 
 export default router;

@@ -16,7 +16,6 @@ const counterPartyService = {
     getCounterPartyById: async (token, uuid) => {
 
         try {
-
             const response = await kyInstance.get(`wallet/counterparty/${uuid}`,
                 {
                     headers: {
@@ -778,6 +777,47 @@ const counterPartyService = {
         } catch (error) {
             console.log(error)
             throw new Error("Update a counterparty for SEPA");
+        }
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////
+    deleteCounterPartyById: async (token, uuid) => {
+
+        try {
+            const response = await kyInstance.delete(`wallet/counterparty/${uuid}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error)
+            throw new Error("Delete a counterparty by ID");
+        }
+    },
+
+    getCounterParties: async (token, page, size) => {
+
+        try {
+            const queryParams = new URLSearchParams();
+            if(page) queryParams.append("page", page);
+            if(size) queryParams.append("size", size);
+
+            const response = await kyInstance.get(`wallet/counterparty?${queryParams.toString()}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error)
+            throw new Error("Get counterparties for current user");
         }
     },
 

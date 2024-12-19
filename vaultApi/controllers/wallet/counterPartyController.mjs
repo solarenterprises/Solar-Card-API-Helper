@@ -186,6 +186,47 @@ const counterPartyController = {
             res.status(500).json({result: "failed"});
         }
     },
+
+    deleteCounterPartyById:  async (req, res) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+
+            const counterPartyId = req.query.counterParty_id || null;
+
+            if(!counterPartyId) {
+                return res.status(400).json({result: "failed", message: "CounterParty uuid is required"});
+            }
+
+            const counterParty = await counterPartyService.deleteCounterPartyById(token, counterPartyId);
+            res.status(200).json({data: counterParty});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
+
+    getCounterParties: async (req, res) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                // Return 401 if token is missing
+                return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
+            }
+
+            const page = req.query.page || null;
+            const size = req.query.size || null;
+
+            const counterParties = await counterPartyService.getCounterParties(token, page, size);
+            res.status(200).json({data: counterParties});
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({result: "failed"});
+        }
+    },
 };
 
 export default counterPartyController;
