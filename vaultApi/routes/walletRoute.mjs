@@ -3,28 +3,31 @@ import accountController from "../controllers/wallet/accountController.mjs";
 import addressController from "../controllers/wallet/addressController.mjs";
 import balanceController from "../controllers/wallet/balanceController.mjs";
 import counterPartyController from "../controllers/wallet/counterPartyController.mjs";
+import transactionController from "../controllers/wallet/transactionController.mjs";
 const router = express.Router();
 
-router.post("/account/new", accountController.createWalletAccount);
+router.post("/account", accountController.createWalletAccount);
 router.get("/account/:account_id", accountController.getWalletAccountById);
-router.put("/account/update/:account_id", accountController.updateWalletAccountById);
-router.get("/account/all", accountController.getAllWalletAccounts);
+router.put("/account/:account_id", accountController.updateWalletAccountById);
+router.get("/account", accountController.getAllWalletAccounts);
 // TIMEOUT ERROR 408
-router.get("/address/address-list", addressController.getAddressDetailList);
-router.get("/address/validation", addressController.checkCryptoCurrencyAddressValidation);
+router.get("/v2/address/list", addressController.getAddressDetailList);
+router.get("/v2/address/format/validation", addressController.checkCryptoCurrencyAddressValidation);
 //
 router.get("/balance", balanceController.getAccountBalances);
-router.post("/balance-touch", balanceController.touchBalanceForCurrency);
-router.get("/paged-balance", balanceController.getPagedBalance);
-router.get("/balance/:log_id", balanceController.getBalanceLogById);
+router.post("/balance", balanceController.touchBalanceForCurrency);
+router.get("/balance/log", balanceController.getPagedBalance);
+router.get("/balance/log/:log_id", balanceController.getBalanceLogById);
 
 //
 router.get("/counterparty/:counterParty_id", counterPartyController.getCounterPartyById);
-router.post("/counterparty/new-crypto", counterPartyController.createNewCounterPartyForCrypto);
-router.post("/counterparty/new-ach", counterPartyController.createNewCounterPartyForACH);
-router.post("/counterparty/new-ach", counterPartyController.createNewCounterPartyForFedwire);
-router.post("/counterparty/new-swift", counterPartyController.createNewCounterPartyForSwift);
-router.post("/counterparty/new-sepa", counterPartyController.createNewCounterPartyForSepa);
+router.post("/counterparty", counterPartyController.createNewCounterParty);
+router.put("/counterparty/:counterParty_id", counterPartyController.updateCounterPartyById);
+router.delete("/counterparty/:counterParty_id", counterPartyController.deleteCounterPartyById);
+router.get("/counterparty", counterPartyController.getCounterParties);
 
+//
+router.post("/payin", transactionController.createCurrencyPayIn);
+router.get("/payin", transactionController.getAllPlan);
 
 export default router;
