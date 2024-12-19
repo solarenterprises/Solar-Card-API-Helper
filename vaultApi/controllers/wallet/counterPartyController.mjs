@@ -10,7 +10,7 @@ const counterPartyController = {
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
 
-            const counterPartyId = req.query.counterParty_id || null;
+            const counterPartyId = req.params.counterParty_id || null;
 
             if(!counterPartyId) {
                 return res.status(400).json({result: "failed", message: "CounterParty uuid is required"});
@@ -110,7 +110,7 @@ const counterPartyController = {
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
 
-            const counterPartyId = req.query.counterParty_id || null;
+            const counterPartyId = req.params.counterParty_id || null;
 
             if(!counterPartyId) {
                 return res.status(400).json({result: "failed", message: "CounterParty uuid is required"});
@@ -195,7 +195,7 @@ const counterPartyController = {
                 return res.status(401).json({ result: "failed", message: "Authentication token is missing." });
             }
 
-            const counterPartyId = req.query.counterParty_id || null;
+            const counterPartyId = req.params.counterParty_id || null;
 
             if(!counterPartyId) {
                 return res.status(400).json({result: "failed", message: "CounterParty uuid is required"});

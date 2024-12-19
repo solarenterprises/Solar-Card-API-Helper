@@ -3,6 +3,7 @@ import accountController from "../controllers/wallet/accountController.mjs";
 import addressController from "../controllers/wallet/addressController.mjs";
 import balanceController from "../controllers/wallet/balanceController.mjs";
 import counterPartyController from "../controllers/wallet/counterPartyController.mjs";
+import transactionController from "../controllers/wallet/transactionController.mjs";
 const router = express.Router();
 
 router.post("/account", accountController.createWalletAccount);
@@ -24,5 +25,8 @@ router.post("/counterparty", counterPartyController.createNewCounterParty);
 router.put("/counterparty/:counterParty_id", counterPartyController.updateCounterPartyById);
 router.delete("/counterparty/:counterParty_id", counterPartyController.deleteCounterPartyById);
 router.get("/counterparty", counterPartyController.getCounterParties);
+
+//
+router.post("/payin", transactionController.createCurrencyPayIn)
 
 export default router;
