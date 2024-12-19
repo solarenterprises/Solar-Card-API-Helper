@@ -78,6 +78,25 @@ const transactionService = {
             console.log(error);
             throw new Error("Create an Currency PayIn");
         }
+    },
+
+    getAllPlan: async(token, accountId) => {
+        try {
+            const queryParams = new URLSearchParams();
+            if(accountId) queryParams.append("accountId", accountId);
+
+            const response = await kyInstance.get(``, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new Error("List All PayIn");
+        }
     }
 }
 

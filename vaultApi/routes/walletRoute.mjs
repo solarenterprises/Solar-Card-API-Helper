@@ -27,6 +27,7 @@ router.delete("/counterparty/:counterParty_id", counterPartyController.deleteCou
 router.get("/counterparty", counterPartyController.getCounterParties);
 
 //
-router.post("/payin", transactionController.createCurrencyPayIn)
+router.post("/payin", transactionController.createCurrencyPayIn);
+router.get("/payin", transactionController.getAllPlan);
 
 export default router;
