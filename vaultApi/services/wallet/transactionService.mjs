@@ -80,12 +80,12 @@ const transactionService = {
         }
     },
 
-    getAllPlan: async(token, accountId) => {
+    getAllPayIn: async(token, accountId) => {
         try {
             const queryParams = new URLSearchParams();
             if(accountId) queryParams.append("accountId", accountId);
 
-            const response = await kyInstance.get(``, {
+            const response = await kyInstance.get(`payin?${queryParams.toString()}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -97,7 +97,24 @@ const transactionService = {
             console.log(error);
             throw new Error("List All PayIn");
         }
-    }
+    },
+
+    getPayInById: async(token, payinId) => {
+        try {
+            const response = await kyInstance.get(`payin/${payinId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Retrieve an PayIn");
+        }
+    },
+
 }
 
 

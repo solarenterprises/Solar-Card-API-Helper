@@ -28,6 +28,7 @@ router.get("/counterparty", counterPartyController.getCounterParties);
 
 //
 router.post("/payin", transactionController.createCurrencyPayIn);
-router.get("/payin", transactionController.getAllPlan);
+router.get("/payin", transactionController.getAllPayIn);
+router.get("/payin/:payin_id", transactionController.getPayInById);
 
 export default router;
